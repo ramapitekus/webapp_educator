@@ -12,7 +12,6 @@ async def server(websocket):
     event = random.choice(EVENTS)
     await asyncio.sleep(random.random() * 10 + 1)
     await websocket.send(event)
-    websocket
 
 
 async def main():

@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SocketNavigation from "./components/SocketNavigation";
 import Recording from "./components/Recording";
 import S2t from "./components/S2t";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
           <Route exact path="/Obligations" element={<Obligations />}></Route>
           <Route exact path="/Risk" element={<Risk />}></Route>
           <Route exact path="/S2t" element={<S2t />}></Route>
-          <Route exact path="/" element={<SocketNavigation />}></Route>
+          <Route exact path="/SocketNav" element={<SocketNavigation />}></Route>
+          <Route exact path="/" element={Dashboard()}></Route>
         </Routes>
       </Router>
     </div>
