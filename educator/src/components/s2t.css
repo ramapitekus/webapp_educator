@@ -1,0 +1,31 @@
+.record-div{
+  margin: auto;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button span {
+  font-size: 0.7em;
+}
+
+button hr {
+  margin: 2px;
+}
+
+.button-rec {
+  background-image: "../assets/mic.png";
+  background-position: top left;
+  background-repeat: no-repeat;
+  background-color: #FFFFFF;
+  width: 128px;
+  border: 0px;
+  margin: 7px 0 5px 7px;
+  padding: 3px 0 6px 0;
+  cursor: hand;
+  cursor: pointer;
+  color: #2C2C2C;
+  font-family: Tahoma;
+  font-size: 11px;
+}
