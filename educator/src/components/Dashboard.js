@@ -1,4 +1,4 @@
-const Dashboard = function () {
+const Dashboard = () => {
   return (
     <div>
       <h1>This is the initial page. Navigate to:</h1>

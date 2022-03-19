@@ -19,7 +19,7 @@ function App() {
           <Route exact path="/Risk" element={<Risk />}></Route>
           <Route exact path="/S2t" element={<S2t />}></Route>
           <Route exact path="/SocketNav" element={<SocketNavigation />}></Route>
-          <Route exact path="/" element={Dashboard()}></Route>
+          <Route exact path="/" element={<Dashboard />}></Route>
         </Routes>
       </Router>
     </div>
