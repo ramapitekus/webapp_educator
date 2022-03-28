@@ -21,6 +21,8 @@ const S2t = () => {
           result.text +
             "\n Recording stopped. Press the streaming button to start again."
         );
+        sendToAPI("http://localhost:5000/api/v1/models", result.text)
+          .then(response => {console.log("Answer from the API:\n" + response.message)});
       } else {
         console.log(
           "ERROR: Speech was cancelled or could not be recognized. Ensure your microphone is working properly."
@@ -42,5 +44,17 @@ const S2t = () => {
     )
   );
 };
+
+async function sendToAPI(url, message) {
+  // Simple POST request with a JSON body using fetch
+  const requestOptions = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ message: message })
+  };
+
+  let response = await fetch(url, requestOptions);
+  return response.json();
+}
 
 export default S2t;
