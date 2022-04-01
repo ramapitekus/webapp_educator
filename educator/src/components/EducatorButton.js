@@ -3,7 +3,6 @@ import sttFromMic from "./S2t";
 
 const EducatorButton = () => {
   const [recording, setRecording] = useState(false);
-  const [Session, setSession] = useState(0);
   let [startRec, stopRec] = useMemo(() => {
     return sttFromMic();
   }, []);
@@ -28,7 +27,6 @@ const EducatorButton = () => {
           onClick={() => {
             stopRec();
             setRecording(false);
-            setSession(Session + 1);
           }}
         >
           Stop Educator

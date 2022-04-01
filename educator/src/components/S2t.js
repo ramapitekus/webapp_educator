@@ -29,10 +29,8 @@ function sttFromMic() {
         );
       }
     };
-    console.log(recognizer);
   }
   async function stopRecording() {
-    console.log(recognizer);
     recognizer.stopContinuousRecognitionAsync();
   }
   return [startRecording, stopRecording];
