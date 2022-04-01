@@ -1,10 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
-
 * {
-  font-family: "Quicksand";
+  font-family: "HK Grotesk";
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 22px;
+  font-style: normal;
   text-align: center;
-  color: white;
-  background-color: rgb(29, 27, 27);
+  color: #E9E8E3;
+  background-color: rgb(0, 0, 0);
 }
 
 .content {
@@ -16,3 +18,18 @@
 ul {
   text-align: center;
 }
+
+.button {
+  background-color: #000000;
+  border: 3.5px solid #636363;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  aspect-ratio: 1;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+.button1 {border-radius: 50%;}
