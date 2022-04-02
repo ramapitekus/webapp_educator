@@ -60,3 +60,11 @@ ul {
   margin-bottom: 30px;
   top: 50%;
 }
+
+.buttonEndExplanation {
+  position: fixed;
+  left: 50%;
+  font-size: 50%;
+  flex: 1;
+  top: 80%;
+}

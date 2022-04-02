@@ -1,4 +1,3 @@
-import "./s2t.css";
 import { ResultReason } from "microsoft-cognitiveservices-speech-sdk";
 
 function sttFromMic() {
