@@ -20,9 +20,8 @@ ul {
 }
 
 .button {
-  background-color: #000000;
-  border: 3.5px solid #636363;
-  color: white;
+  height: 120px;
+  width: 120px;
   padding: 20px;
   text-align: center;
   aspect-ratio: 1;
@@ -32,4 +31,19 @@ ul {
   margin: 4px 2px;
 }
 
-.button1 {border-radius: 50%;}
+.buttonStart {
+  border-radius: 50%;
+  border: 3.5px solid #636363;
+}
+
+.buttonStop {
+  border-radius: 50%;
+  border-radius: 100rem;
+  padding: 1rem;
+  box-shadow: black;
+  border: solid 3px transparent;
+  background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(101deg, rgba(85, 92, 211, 1), rgba(54, 183, 232, 1));
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  box-shadow: 2px 1000px 1px black inset;
+}

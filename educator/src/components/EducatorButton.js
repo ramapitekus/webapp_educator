@@ -11,7 +11,7 @@ const EducatorButton = () => {
     case false:
       return (
         <button
-          className="button button1"
+          className="button buttonStart"
           onClick={() => {
             startRec();
             setRecording(true);
@@ -23,7 +23,7 @@ const EducatorButton = () => {
     case true:
       return (
         <button
-          className="button button1"
+          className="button buttonStop"
           onClick={() => {
             stopRec();
             setRecording(false);
