@@ -20,30 +20,43 @@ ul {
 }
 
 .button {
-  height: 120px;
-  width: 120px;
-  padding: 20px;
   text-align: center;
   aspect-ratio: 1;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
   margin: 4px 2px;
-}
-
-.buttonStart {
   border-radius: 50%;
   border: 3.5px solid #636363;
 }
 
-.buttonStop {
-  border-radius: 50%;
-  border-radius: 100rem;
+.buttonStart {
+  text-align: center;
+  margin: 4px 2px;
+  height: 10%;
+  font-size: 100%;
+  width: 10%;
   padding: 1rem;
+}
+
+.buttonStop {
+  text-align: center;
+  height: 10%;
+  width: 10%;
+  padding: 1rem;
+  font-size: 100%;
   box-shadow: black;
   border: solid 3px transparent;
   background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(101deg, rgba(85, 92, 211, 1), rgba(54, 183, 232, 1));
   background-origin: border-box;
   background-clip: content-box, border-box;
   box-shadow: 2px 1000px 1px black inset;
+  margin-bottom: 5%;
+}
+
+.buttonExplanation {
+  left: 10%;
+  justify-content: 'flex-end';
+  flex: 1;
+  margin-bottom: 30px;
+  top: 50%;
 }

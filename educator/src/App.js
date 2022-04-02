@@ -1,10 +1,11 @@
 import "./App.css";
-import EducatorButton from "./components/EducatorButton";
+import EducatorHome from "./components/EducatorHome";
+import Explanations from "./components/ExplanationButtons";
 
 function App() {
   return (
     <div className="App">
-      <EducatorButton />
+      <EducatorHome />
     </div>
   );
 }
