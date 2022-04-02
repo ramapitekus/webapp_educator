@@ -2,8 +2,7 @@ import React, { lazy, Suspense, useState } from "react";
 
 const ExplanationButtons = () => {
   const [ExplanationComponent, setExplanationComponent] = useState(null);
-  const [explanations, setExplanations] = useState(["Stocks"]);
-  //const DynamicComponent = lazy(() => import(`./${componentName}`));
+  const [explanations, setExplanations] = useState(["Stocks", "Risk"]);
 
   const handleClick = (e) => {
     const val = e.currentTarget.getAttribute("expl");
@@ -14,7 +13,7 @@ const ExplanationButtons = () => {
   var explanationButtons = explanations.map((expl) => (
     <button
       className="button buttonExplanation"
-      key="hi"
+      key={Math.random()}
       onClick={handleClick}
       expl={expl}
     >
