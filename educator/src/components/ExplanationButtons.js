@@ -1,8 +1,7 @@
 import React, { lazy, Suspense, useState } from "react";
 
-const ExplanationButtons = () => {
+const ExplanationButtons = ({ topics }) => {
   const [ExplanationComponent, setExplanationComponent] = useState(null);
-  const [explanations, setExplanations] = useState(["Stocks", "Risk"]);
 
   const handleClick = (e) => {
     const val = e.currentTarget.getAttribute("expl");
@@ -10,12 +9,20 @@ const ExplanationButtons = () => {
     setExplanationComponent(DynamicComponent);
   };
 
-  var explanationButtons = explanations.map((expl) => (
+  const capitalize = (string) => {
+    const firstLetter = string[0].toUpperCase();
+    const otherLetter = string.slice(1);
+    const capitalized = firstLetter.concat(otherLetter);
+    return capitalized;
+  };
+
+  var explanationButtons = topics.map((expl) => (
     <button
       className="button buttonExplanation"
+      //TODO: Add reasonable keys
       key={Math.random()}
       onClick={handleClick}
-      expl={expl}
+      expl={capitalize(expl)}
     >
       {expl}
     </button>

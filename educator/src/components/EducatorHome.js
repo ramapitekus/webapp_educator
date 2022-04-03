@@ -1,11 +1,31 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import ExplanationButtons from "./ExplanationButtons";
 import sttFromMic from "./S2t";
 
 const EducatorHome = () => {
   const [recording, setRecording] = useState(false);
+  const [apiResponse, setApiResponse] = useState(null);
+  const [explanations, setExplanations] = useState([]);
+
+  const handleCallback = (apiData) => {
+    // If utterance not recognized, ignore
+    if (apiData !== "none") {
+      setApiResponse(apiData);
+    }
+  };
+
+  // Update explanations list if back-end recognizes utterance
+  useEffect(() => {
+    if (apiResponse) {
+      if (!explanations.includes(apiResponse)) {
+        setExplanations([...explanations, apiResponse]);
+      }
+    }
+    //eslint-disable-next-line
+  }, [apiResponse]);
+
   let [startRec, stopRec] = useMemo(() => {
-    return sttFromMic();
+    return sttFromMic(handleCallback);
   }, []);
 
   switch (recording) {
@@ -33,7 +53,7 @@ const EducatorHome = () => {
           >
             Stop Educator
           </button>
-          <ExplanationButtons />
+          {apiResponse && <ExplanationButtons topics={explanations} />}
         </>
       );
   }
