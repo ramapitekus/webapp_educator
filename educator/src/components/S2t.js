@@ -19,7 +19,7 @@ function sttFromMic() {
         console.log(result.text);
         sendToAPI("http://localhost:5000/api/v1/models", result.text).then(
           (response) => {
-            console.log("Answer from the API:\n" + response.message);
+            console.log("Answer from the API:\n" + response.message + "\nAPI recognized following topic:\n" + response.topic);
           }
         );
       } else {
