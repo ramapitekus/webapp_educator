@@ -6,7 +6,7 @@ function sttFromMic(handleCallback) {
     "2ed0fc03d2e441388c4fd35cc91c23b3",
     "eastus"
   );
-  speechConfig.speechRecognitionLanguage = "de-CH";
+  speechConfig.speechRecognitionLanguage = "en-US";
   const audioConfig = sdk.AudioConfig.fromDefaultMicrophoneInput();
   const recognizer = new sdk.SpeechRecognizer(speechConfig, audioConfig);
 

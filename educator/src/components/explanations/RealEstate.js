@@ -1,7 +1,7 @@
 import React from "react";
 import "./explanations.css";
 
-export default function Stocks({ onClose }) {
+const RealEstate = ({ onClose }) => {
   return (
     <>
       <div className="modalStyles" />
@@ -9,8 +9,10 @@ export default function Stocks({ onClose }) {
         <button className="button buttonEndExplanation" onClick={onClose}>
           End Explanation
         </button>
-        Stocks explanation page
+        Real Estate explanation page
       </div>
     </>
   );
-}
+};
+
+export default RealEstate;

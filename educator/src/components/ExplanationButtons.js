@@ -5,7 +5,7 @@ const ExplanationButtons = ({ topics }) => {
 
   const handleClick = (e) => {
     const val = e.currentTarget.getAttribute("expl");
-    const DynamicComponent = lazy(() => import(`./${val}`));
+    const DynamicComponent = lazy(() => import(`./explanations/${val}`));
     setExplanationComponent(DynamicComponent);
   };
 
