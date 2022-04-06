@@ -83,6 +83,14 @@ ul {
   top: 50%;
 }
 
+.buttonEndExplanationVideo {
+  position: fixed;
+  left: 47%;
+  font-size: 50%;
+  flex: 1;
+  top: 5%;
+}
+
 .buttonFinished{
   border: 3.5px solid green;
 }
