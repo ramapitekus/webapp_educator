@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./explanations.css";
 import useSound from "use-sound";
+import { Text } from "react-native";
 
 export default function Stocks({ onClose }) {
   const subTopics = [
@@ -11,14 +12,17 @@ export default function Stocks({ onClose }) {
     "Understanding Stocks",
   ];
 
-  const CreateBtns = (subTopic) => {
+  const CreateAudioBtns = (subTopic) => {
     const DynamicAudio = require(`./audios/stocks/${subTopic}.mp3`);
 
-    console.log(DynamicAudio);
     const [audioPlaying, setAudioPlaying] = useState(false);
+    const [isFinished, setIsFinished] = useState(false);
 
     const [DynAudio, { stop }] = useSound(DynamicAudio, {
-      volume: 1.0,
+      onend: () => {
+        setAudioPlaying(false);
+        setIsFinished(true);
+      },
     });
 
     const play = () => {
@@ -33,24 +37,30 @@ export default function Stocks({ onClose }) {
 
     return (
       <button
-        className="button buttonExplanation"
+        className={
+          !audioPlaying
+            ? isFinished
+              ? "button buttonFinished"
+              : "button buttonExplanation"
+            : "button buttonStopSubtopic"
+        }
         //TODO: Add reasonable keys
         key={Math.random()}
         onClick={play}
         expl={subTopic}
       >
-        {subTopic}
+        <Text style={{ color: "white" }}>{subTopic.replace(" ", "\n")}</Text>
       </button>
     );
   };
 
-  var explanationButtons = subTopics.map(CreateBtns);
+  var explanationButtons = subTopics.map(CreateAudioBtns);
 
   return (
     <>
       <div className="modalStyles" />
       <div className="overlayStyles">
-        Stocks
+        <Text style={{ color: "white" }}>Stocks</Text>
         <div>{explanationButtons}</div>
         <button className="button buttonEndExplanation" onClick={onClose}>
           End Explanation

@@ -45,13 +45,26 @@ ul {
   height: 10%;
   width: 10%;
   padding: 1rem;
-  box-shadow: black;
   border: solid 3px transparent;
   background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(101deg, rgba(85, 92, 211, 1), rgba(54, 183, 232, 1));
   background-origin: border-box;
   background-clip: content-box, border-box;
   box-shadow: 2px 1000px 1px black inset;
   margin-bottom: 5%;
+}
+
+.buttonStopSubtopic {
+  left: 10%;
+  justify-content: 'flex-end';
+  flex: 1;
+  margin-bottom: 30px;
+  max-width:200;
+  top: 50%;
+  border: solid 3px transparent;
+  background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(101deg, rgba(85, 92, 211, 1), rgba(54, 183, 232, 1));
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  box-shadow: 2px 1000px 1px black inset;
 }
 
 .buttonExplanation {
@@ -64,8 +77,12 @@ ul {
 
 .buttonEndExplanation {
   position: fixed;
-  left: 50%;
+  left: 47%;
   font-size: 50%;
   flex: 1;
-  top: 80%;
+  top: 50%;
+}
+
+.buttonFinished{
+  border: 3.5px solid green;
 }
