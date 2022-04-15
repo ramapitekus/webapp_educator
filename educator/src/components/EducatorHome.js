@@ -7,7 +7,7 @@ const EducatorHome = () => {
   const [apiResponse, setApiResponse] = useState(null);
   const [explanations, setExplanations] = useState([]);
 
-  const handleCallback = (apiData) => {
+  const getResponse = (apiData) => {
     // If utterance not recognized, ignore
     if (apiData !== "none") {
       setApiResponse(apiData);
@@ -16,16 +16,14 @@ const EducatorHome = () => {
 
   // Update explanations list if back-end recognizes utterance
   useEffect(() => {
-    if (apiResponse) {
-      if (!explanations.includes(apiResponse)) {
-        setExplanations([...explanations, apiResponse]);
-      }
+    if (apiResponse && !explanations.includes(apiResponse)) {
+      setExplanations([...explanations, apiResponse]);
     }
     //eslint-disable-next-line
   }, [apiResponse]);
 
   let [startRec, stopRec] = useMemo(() => {
-    return sttFromMic(handleCallback);
+    return sttFromMic(getResponse);
   }, []);
 
   switch (recording) {

@@ -14,7 +14,6 @@ export default function Stocks({ onClose }) {
 
   const CreateAudioBtns = (subTopic) => {
     const DynamicAudio = require(`./audios/stocks/${subTopic}.mp3`);
-
     const [audioPlaying, setAudioPlaying] = useState(false);
     const [isFinished, setIsFinished] = useState(false);
 

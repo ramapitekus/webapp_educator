@@ -1,6 +1,6 @@
 import { ResultReason } from "microsoft-cognitiveservices-speech-sdk";
 
-function sttFromMic(handleCallback) {
+function sttFromMic(setResponse) {
   const sdk = require("microsoft-cognitiveservices-speech-sdk");
   const speechConfig = sdk.SpeechConfig.fromSubscription(
     "2ed0fc03d2e441388c4fd35cc91c23b3",
@@ -25,7 +25,7 @@ function sttFromMic(handleCallback) {
                 "\nAPI recognized following topic:\n" +
                 response.topic
             );
-            handleCallback(response.topic);
+            setResponse(response.topic);
           }
         );
       } else {
