@@ -15,15 +15,23 @@ const ExplanationButtons = ({ topics }) => {
     console.log("close button pressed");
   };
 
+  topics.map((expl) => {
+    console.log(expl.colored);
+  });
+
   var explanationButtons = topics.map((expl) => (
     <button
-      className="button buttonExplanation"
+      className={
+        expl.colored
+          ? "button buttonExplanationMentioned"
+          : "button buttonExplanation"
+      }
       //TODO: Add reasonable keys
       key={Math.random()}
       onClick={handleClick}
-      expl={expl}
+      expl={expl.name}
     >
-      {expl}
+      {expl.name}
     </button>
   ));
 

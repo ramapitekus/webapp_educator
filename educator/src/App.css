@@ -75,6 +75,15 @@ ul {
   top: 50%;
 }
 
+.buttonExplanationMentioned {
+  left: 10%;
+  border: 3.5px solid green;
+  justify-content: 'flex-end';
+  flex: 1;
+  margin-bottom: 30px;
+  top: 50%;
+}
+
 .buttonEndExplanation {
   position: fixed;
   left: 47%;
@@ -92,5 +101,5 @@ ul {
 }
 
 .buttonFinished{
-  border: 3.5px solid green;
+  border: 3.5px solid #636363;
 }

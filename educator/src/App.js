@@ -15,18 +15,47 @@ function App() {
     }
   };
 
-  // Update explanations list if back-end recognizes utterance
-  useEffect(() => {
-    if (apiResponse && !explanations.includes(apiResponse)) {
-      let updatedExplanations = explanations;
-      if (explanations.length === 5) {
-        updatedExplanations = updatedExplanations.filter(
-          (expl) => explanations[0] !== expl
-        );
-      }
-      setExplanations([...updatedExplanations, apiResponse]);
+  const changeColorProp = (explanation) => {
+    if (explanation.name == apiResponse) {
+      explanation.colored = true;
     }
-    //eslint-disable-next-line
+    return explanation;
+  };
+
+  const existsInArr = (updatedExplanations) => {
+    return updatedExplanations.find((expl) => {
+      return expl.name === apiResponse;
+    });
+  };
+
+  const removeOldestButton = (intermediateExplanations) => {
+    return intermediateExplanations.filter(
+      (expl) => explanations.name[0] !== expl.name
+    );
+  };
+
+  useEffect(() => {
+    // Set timeout after which coloring of mentioned topic is returned to gray
+    let intermediateExplanations = explanations;
+    // Block which handles if button does not exist yet
+    if (apiResponse && !existsInArr(intermediateExplanations)) {
+      // If more than 5 buttons present, remove oldest one
+      if (intermediateExplanations.length >= 5) {
+        intermediateExplanations = removeOldestButton(intermediateExplanations);
+      }
+      // If less than 5 buttons
+      else {
+        setExplanations([
+          ...intermediateExplanations,
+          { name: apiResponse, colored: false },
+        ]);
+      }
+    }
+    // Handle case if the button already exists
+    if (apiResponse && existsInArr(intermediateExplanations)) {
+      intermediateExplanations = intermediateExplanations.map(changeColorProp);
+      setExplanations(intermediateExplanations);
+    }
   }, [apiResponse]);
 
   let [startRec, stopRec] = useMemo(() => {
@@ -58,6 +87,7 @@ function App() {
           >
             Stop Educator
           </button>
+          {console.log(explanations)}
           {apiResponse && <ExplanationButtons topics={explanations} />}
         </>
       );
