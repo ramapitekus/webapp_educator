@@ -1,19 +1,18 @@
-import React, { lazy, Suspense, useState } from "react";
+import React, { useState } from "react";
+import PlayVideo from "./explanations/PlayVideo";
 
 const ExplanationButtons = ({ topics }) => {
-  const [ExplanationComponent, setExplanationComponent] = useState(null);
+  // const [ExplanationComponent, setExplanationComponent] = useState(null);
+  const [VideoStr, setVideoStr] = useState(null);
 
   const handleClick = (e) => {
     const val = e.currentTarget.getAttribute("expl");
-    const DynamicComponent = lazy(() => import(`./explanations/${val}`));
-    setExplanationComponent(DynamicComponent);
+    setVideoStr(val);
   };
 
-  const capitalize = (string) => {
-    const firstLetter = string[0].toUpperCase();
-    const otherLetter = string.slice(1);
-    const capitalized = firstLetter.concat(otherLetter);
-    return capitalized;
+  const VideoCallback = () => {
+    setVideoStr(null);
+    console.log("close button pressed");
   };
 
   var explanationButtons = topics.map((expl) => (
@@ -22,7 +21,7 @@ const ExplanationButtons = ({ topics }) => {
       //TODO: Add reasonable keys
       key={Math.random()}
       onClick={handleClick}
-      expl={capitalize(expl)}
+      expl={expl}
     >
       {expl}
     </button>
@@ -30,15 +29,7 @@ const ExplanationButtons = ({ topics }) => {
 
   return (
     <>
-      {ExplanationComponent && (
-        <Suspense fallback="">
-          <ExplanationComponent
-            onClose={() => {
-              setExplanationComponent(null);
-            }}
-          />
-        </Suspense>
-      )}
+      {VideoStr && <PlayVideo videostr={VideoStr} callback={VideoCallback} />}
       <div>{explanationButtons}</div>
     </>
   );

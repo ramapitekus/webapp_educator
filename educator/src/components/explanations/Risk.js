@@ -12,10 +12,10 @@ const Risk = ({ onClose }) => {
     <>
       <div className="modalStyles" />
       <div className="overlayStyles">
+        <video src="/clips/Understanding Risks.mp4" ref={vidRef} autoPlay />
         <button className="button buttonEndExplanationVideo" onClick={onClose}>
           End Explanation
         </button>
-        <video src="/clips/Understanding Risks.mp4" ref={vidRef} autoPlay />
       </div>
     </>
   );

@@ -17,7 +17,13 @@ const EducatorHome = () => {
   // Update explanations list if back-end recognizes utterance
   useEffect(() => {
     if (apiResponse && !explanations.includes(apiResponse)) {
-      setExplanations([...explanations, apiResponse]);
+      let updatedExplanations = explanations;
+      if (explanations.length === 5) {
+        updatedExplanations = updatedExplanations.filter(
+          (expl) => explanations[0] !== expl
+        );
+      }
+      setExplanations([...updatedExplanations, apiResponse]);
     }
     //eslint-disable-next-line
   }, [apiResponse]);
