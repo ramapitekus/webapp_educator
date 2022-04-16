@@ -5,10 +5,11 @@ import sttFromMic from "./components/S2t";
 
 function App() {
   const [recording, setRecording] = useState(false);
-  const [apiResponse, setapiResponse] = useState(null);
+  const [apiResponse, setapiResponse] = useState({ topic: null });
   const [explanations, setExplanations] = useState([]);
   const latestButton = useRef(null);
-  // const explRef = useRef(explanations);
+  const explRef = useRef(explanations);
+  const explSet = useRef(setExplanations);
 
   const getResponse = (apiData) => {
     // If utterance not recognized, ignore
@@ -20,29 +21,27 @@ function App() {
   const setColorProp = (explanations) => {
     var copyExplanations = JSON.parse(JSON.stringify(explanations));
     copyExplanations.forEach((explanation) => {
-      if (explanation.name == apiResponse.topic) {
+      if (explanation.name === apiResponse.topic) {
         explanation.colored = true;
       }
     });
     setExplanations(copyExplanations);
   };
 
-  const unsetColorProp = () => {
-    var copyExplanations = JSON.parse(JSON.stringify(explanations));
+  const unsetColorProp = (button) => {
+    const setExp = explSet.current;
+    var copyExplanations = JSON.parse(JSON.stringify(explRef.current));
     copyExplanations.forEach((explanation) => {
-      if (
-        explanation.name == latestButton.current &&
-        explanation.colored == true
-      ) {
+      if (explanation.name === button && explanation.colored === true) {
         explanation.colored = false;
-        setExplanations(copyExplanations);
+        setExp(copyExplanations);
       }
     });
   };
 
   const existsInArr = (updatedExplanations) => {
     return updatedExplanations.find((expl) => {
-      return expl.name == apiResponse.topic;
+      return expl.name === apiResponse.topic;
     });
   };
 
@@ -52,16 +51,16 @@ function App() {
     );
   };
 
-  // useEffect(() => {
-  //   explRef.current = explanations
-  // }, [explanations])
+  useEffect(() => {
+    explRef.current = explanations;
+  }, [explanations]);
 
   useEffect(() => {
     // TODO: create if for apiResponse, nest everything else inside
     // Set timeout after which coloring of mentioned topic is returned to gray
     let intermediateExplanations = explanations;
     // Block which handles if button does not exist yet
-    if (apiResponse && !existsInArr(intermediateExplanations)) {
+    if (apiResponse.topic !== null && !existsInArr(intermediateExplanations)) {
       // If more than 5 buttons present, remove oldest one
       if (intermediateExplanations.length >= 5) {
         intermediateExplanations = removeOldestButton(intermediateExplanations);
@@ -73,16 +72,18 @@ function App() {
       ]);
     }
     // Handle case if the button already exists
-    if (apiResponse && existsInArr(intermediateExplanations)) {
+    if (apiResponse.topic && existsInArr(intermediateExplanations)) {
       setColorProp(intermediateExplanations);
       latestButton.current = apiResponse.topic;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiResponse]);
 
-  // add timeout 2s, after this, change buttons back to original color
+  // 10s after mentioning the topic, return the color back to gray
   useEffect(() => {
+    const button = latestButton.current;
     setTimeout(() => {
-      unsetColorProp();
+      unsetColorProp(button);
     }, 10000);
   }, [explanations]);
 
@@ -103,7 +104,7 @@ function App() {
           Start Educator
         </button>
       );
-    case true:
+    default:
       return (
         <>
           <button
@@ -115,7 +116,7 @@ function App() {
           >
             Stop Educator
           </button>
-          {apiResponse && <ExplanationButtons topics={explanations} />}
+          {<ExplanationButtons topics={explanations} />}
         </>
       );
   }
