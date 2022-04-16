@@ -56,32 +56,34 @@ function App() {
   }, [explanations]);
 
   useEffect(() => {
-    // TODO: create if for apiResponse, nest everything else inside
-    // Set timeout after which coloring of mentioned topic is returned to gray
     let intermediateExplanations = explanations;
-    // Block which handles if button does not exist yet
-    if (apiResponse.topic !== null && !existsInArr(intermediateExplanations)) {
-      // If more than 5 buttons present, remove oldest one
-      if (intermediateExplanations.length >= 5) {
-        intermediateExplanations = removeOldestButton(intermediateExplanations);
+    if (apiResponse.topic) {
+      latestButton.current = apiResponse.topic;
+
+      // Block which handles if button does not exist yet
+      if (!existsInArr(intermediateExplanations)) {
+        // If more than 5 buttons present, remove oldest one
+        if (intermediateExplanations.length >= 5) {
+          intermediateExplanations = removeOldestButton(
+            intermediateExplanations
+          );
+        }
+        setExplanations([
+          ...intermediateExplanations,
+          { name: apiResponse.topic, colored: true },
+        ]);
       }
-      latestButton.current = apiResponse.topic;
-      setExplanations([
-        ...intermediateExplanations,
-        { name: apiResponse.topic, colored: true },
-      ]);
-    }
-    // Handle case if the button already exists
-    if (apiResponse.topic && existsInArr(intermediateExplanations)) {
-      setColorProp(intermediateExplanations);
-      latestButton.current = apiResponse.topic;
+      // Change color property of button if already exists
+      if (existsInArr(intermediateExplanations)) {
+        setColorProp(intermediateExplanations);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiResponse]);
 
   // 10s after mentioning the topic, return the color back to gray
   useEffect(() => {
-    const button = latestButton.current;
+    const button = latestButton.current; // assign the button associated with this instance of useEffect
     setTimeout(() => {
       unsetColorProp(button);
     }, 10000);
@@ -91,38 +93,23 @@ function App() {
     return sttFromMic(getResponse);
   }, []);
 
-  switch (recording) {
-    case false:
-      return (
-        <>
-          <button
-            className="button buttonStart"
-            onClick={() => {
-              startRec();
-              setRecording(true);
-            }}
-          >
-            Start Educator
-          </button>
-          {<ExplanationButtons topics={explanations} />}
-        </>
-      );
-    default:
-      return (
-        <>
-          <button
-            className="button buttonStop"
-            onClick={() => {
-              stopRec();
-              setRecording(false);
-            }}
-          >
-            Stop Educator
-          </button>
-          {<ExplanationButtons topics={explanations} />}
-        </>
-      );
-  }
+  useEffect(() => {
+    recording ? startRec() : stopRec();
+  }, [recording]);
+
+  return (
+    <>
+      <button
+        className={recording ? "button buttonStop" : "button buttonStart"}
+        onClick={() => {
+          setRecording(!recording);
+        }}
+      >
+        {recording ? "Stop Educator" : "Start Educator"}
+      </button>
+      {<ExplanationButtons topics={explanations} />}
+    </>
+  );
 }
 
 export default App;
