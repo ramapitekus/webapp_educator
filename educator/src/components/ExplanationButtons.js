@@ -12,12 +12,7 @@ const ExplanationButtons = ({ topics }) => {
 
   const VideoCallback = () => {
     setVideoStr(null);
-    console.log("close button pressed");
   };
-
-  topics.map((expl) => {
-    console.log(expl.colored);
-  });
 
   var explanationButtons = topics.map((expl) => (
     <button

@@ -1,40 +1,63 @@
 import "./App.css";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import ExplanationButtons from "./components/ExplanationButtons";
 import sttFromMic from "./components/S2t";
 
 function App() {
   const [recording, setRecording] = useState(false);
-  const [apiResponse, setApiResponse] = useState(null);
+  const [apiResponse, setapiResponse] = useState(null);
   const [explanations, setExplanations] = useState([]);
+  const latestButton = useRef(null);
+  // const explRef = useRef(explanations);
 
   const getResponse = (apiData) => {
     // If utterance not recognized, ignore
     if (apiData !== "none") {
-      setApiResponse(apiData);
+      setapiResponse({ topic: apiData });
     }
   };
 
-  const changeColorProp = (explanation) => {
-    if (explanation.name == apiResponse) {
-      explanation.colored = true;
-    }
-    return explanation;
+  const setColorProp = (explanations) => {
+    var copyExplanations = JSON.parse(JSON.stringify(explanations));
+    copyExplanations.forEach((explanation) => {
+      if (explanation.name == apiResponse.topic) {
+        explanation.colored = true;
+      }
+    });
+    setExplanations(copyExplanations);
+  };
+
+  const unsetColorProp = () => {
+    var copyExplanations = JSON.parse(JSON.stringify(explanations));
+    copyExplanations.forEach((explanation) => {
+      if (
+        explanation.name == latestButton.current &&
+        explanation.colored == true
+      ) {
+        explanation.colored = false;
+        setExplanations(copyExplanations);
+      }
+    });
   };
 
   const existsInArr = (updatedExplanations) => {
     return updatedExplanations.find((expl) => {
-      return expl.name === apiResponse;
+      return expl.name == apiResponse.topic;
     });
   };
 
   const removeOldestButton = (intermediateExplanations) => {
     return intermediateExplanations.filter(
-      (expl) => explanations.name[0] !== expl.name
+      (expl) => explanations[0].name !== expl.name
     );
   };
 
+  // useEffect(() => {
+  //   explRef.current = explanations
+  // }, [explanations])
+
   useEffect(() => {
+    // TODO: create if for apiResponse, nest everything else inside
     // Set timeout after which coloring of mentioned topic is returned to gray
     let intermediateExplanations = explanations;
     // Block which handles if button does not exist yet
@@ -43,20 +66,25 @@ function App() {
       if (intermediateExplanations.length >= 5) {
         intermediateExplanations = removeOldestButton(intermediateExplanations);
       }
-      // If less than 5 buttons
-      else {
-        setExplanations([
-          ...intermediateExplanations,
-          { name: apiResponse, colored: false },
-        ]);
-      }
+      latestButton.current = apiResponse.topic;
+      setExplanations([
+        ...intermediateExplanations,
+        { name: apiResponse.topic, colored: true },
+      ]);
     }
     // Handle case if the button already exists
     if (apiResponse && existsInArr(intermediateExplanations)) {
-      intermediateExplanations = intermediateExplanations.map(changeColorProp);
-      setExplanations(intermediateExplanations);
+      setColorProp(intermediateExplanations);
+      latestButton.current = apiResponse.topic;
     }
   }, [apiResponse]);
+
+  // add timeout 2s, after this, change buttons back to original color
+  useEffect(() => {
+    setTimeout(() => {
+      unsetColorProp();
+    }, 10000);
+  }, [explanations]);
 
   let [startRec, stopRec] = useMemo(() => {
     return sttFromMic(getResponse);
@@ -87,7 +115,6 @@ function App() {
           >
             Stop Educator
           </button>
-          {console.log(explanations)}
           {apiResponse && <ExplanationButtons topics={explanations} />}
         </>
       );
