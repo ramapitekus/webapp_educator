@@ -34,10 +34,10 @@ ul {
 
 .buttonStart {
   text-align: center;
-  margin: 4px 2px;
   height: 10%;
   width: 10%;
   padding: 1rem;
+  margin-bottom: 5%;
 }
 
 .buttonStop {

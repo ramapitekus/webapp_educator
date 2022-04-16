@@ -9,7 +9,6 @@ function App() {
   const [explanations, setExplanations] = useState([]);
   const latestButton = useRef(null);
   const explRef = useRef(explanations);
-  const explSet = useRef(setExplanations);
 
   const getResponse = (apiData) => {
     // If utterance not recognized, ignore
@@ -19,6 +18,7 @@ function App() {
   };
 
   const setColorProp = (explanations) => {
+    // TODO: Remove hacky copying
     var copyExplanations = JSON.parse(JSON.stringify(explanations));
     copyExplanations.forEach((explanation) => {
       if (explanation.name === apiResponse.topic) {
@@ -29,12 +29,12 @@ function App() {
   };
 
   const unsetColorProp = (button) => {
-    const setExp = explSet.current;
+    // TODO: Remove hacky copying
     var copyExplanations = JSON.parse(JSON.stringify(explRef.current));
     copyExplanations.forEach((explanation) => {
       if (explanation.name === button && explanation.colored === true) {
         explanation.colored = false;
-        setExp(copyExplanations);
+        setExplanations(copyExplanations);
       }
     });
   };
@@ -94,15 +94,18 @@ function App() {
   switch (recording) {
     case false:
       return (
-        <button
-          className="button buttonStart"
-          onClick={() => {
-            startRec();
-            setRecording(true);
-          }}
-        >
-          Start Educator
-        </button>
+        <>
+          <button
+            className="button buttonStart"
+            onClick={() => {
+              startRec();
+              setRecording(true);
+            }}
+          >
+            Start Educator
+          </button>
+          {<ExplanationButtons topics={explanations} />}
+        </>
       );
     default:
       return (
