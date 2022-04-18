@@ -19,7 +19,7 @@ const PlayVideo = ({ videostr, callback }) => {
           autoPlay
         />
         <button className="button buttonEndExplanationVideo" onClick={callback}>
-          End Explanation
+          Zurück
         </button>
       </div>
     </>

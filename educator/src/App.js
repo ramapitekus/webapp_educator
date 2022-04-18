@@ -105,7 +105,7 @@ function App() {
           setRecording(!recording);
         }}
       >
-        {recording ? "Stop Educator" : "Start Educator"}
+        {recording ? "Educator stoppen" : "Educator starten"}
       </button>
       {<ExplanationButtons topics={explanations} />}
     </>
