@@ -25,7 +25,7 @@ function sttFromMic(setResponse) {
                 "\nAPI recognized following topic:\n" +
                 response.topic
             );
-            setResponse(response.topic);
+            setResponse(response);
           }
         );
       } else {

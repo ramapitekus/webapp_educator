@@ -34,10 +34,10 @@ ul {
 
 .buttonStart {
   text-align: center;
-  margin: 4px 2px;
   height: 10%;
   width: 10%;
   padding: 1rem;
+  margin-bottom: 5%;
 }
 
 .buttonStop {
@@ -75,6 +75,19 @@ ul {
   top: 50%;
 }
 
+.buttonExplanationMentioned {
+  left: 10%;
+  border: solid 3px transparent;
+  background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(101deg, rgba(85, 92, 211, 1), rgba(54, 183, 232, 1));
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  box-shadow: 2px 1000px 1px black inset;
+  justify-content: 'flex-end';
+  flex: 1;
+  margin-bottom: 30px;
+  top: 50%;
+}
+
 .buttonEndExplanation {
   position: fixed;
   left: 47%;
@@ -88,9 +101,9 @@ ul {
   left: 47%;
   font-size: 50%;
   flex: 1;
-  top: 5%;
+  top: 90%;
 }
 
 .buttonFinished{
-  border: 3.5px solid green;
+  border: 3.5px solid #636363;
 }

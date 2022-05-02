@@ -1,8 +1,8 @@
 import { useRef, useEffect } from "react";
+import "./explanations.css";
 
-const PlayVideo = ({ videoStr }) => {
+const PlayVideo = ({ videostr, callback }) => {
   const vidRef = useRef();
-  console.log("hI!");
 
   useEffect(() => {
     vidRef.current.play();
@@ -12,9 +12,10 @@ const PlayVideo = ({ videoStr }) => {
     <>
       <div className="modalStyles" />
       <div className="overlayStyles">
-        Hiiii!
-        <button className="button buttonEndExplanation">End Explanation</button>
-        <video src={`clips/${videoStr}.mp4`} ref={vidRef} autoPlay />
+        <video src={`${videostr}`} ref={vidRef} onEnded={callback} autoPlay />
+        <button className="button buttonEndExplanationVideo" onClick={callback}>
+          Zurück
+        </button>
       </div>
     </>
   );
