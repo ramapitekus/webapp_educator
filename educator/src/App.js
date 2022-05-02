@@ -12,8 +12,8 @@ function App() {
 
   const getResponse = (apiData) => {
     // If utterance not recognized, ignore
-    if (apiData !== "none") {
-      setapiResponse({ topic: apiData });
+    if (apiData.topic !== "none") {
+      setapiResponse(apiData);
     }
   };
 
@@ -70,7 +70,7 @@ function App() {
         }
         setExplanations([
           ...intermediateExplanations,
-          { name: apiResponse.topic, colored: true },
+          { name: apiResponse.topic, colored: true, url: apiResponse.url },
         ]);
       }
       // Change color property of button if already exists

@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import PlayVideo from "./explanations/PlayVideo";
 
 const ExplanationButtons = ({ topics }) => {
+  //topics.forEach((topic) => {
+  //  console.log(topic);
+  //});
   // const [ExplanationComponent, setExplanationComponent] = useState(null);
   const [VideoStr, setVideoStr] = useState(null);
 
-  const handleClick = (e) => {
-    const val = e.currentTarget.getAttribute("expl");
-    setVideoStr(val);
+  const handleClick = (expl) => {
+    // TODO: Add flag logic when implemented at the backend
+    setVideoStr(expl.url);
   };
 
   const VideoCallback = () => {
@@ -23,7 +26,9 @@ const ExplanationButtons = ({ topics }) => {
       }
       //TODO: Add reasonable keys
       key={Math.random()}
-      onClick={handleClick}
+      onClick={() => {
+        handleClick(expl);
+      }}
       expl={expl.name}
     >
       {expl.name}
