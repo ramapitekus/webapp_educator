@@ -2,6 +2,7 @@ import "./App.css";
 import { useMemo, useState, useEffect, useRef } from "react";
 import ExplanationButtons from "./components/ExplanationButtons";
 import sttFromMic from "./components/S2t";
+import PlayAudio from "./components/explanations/PlayAudio";
 
 function App() {
   const initialLeftOffset = 10;
@@ -9,6 +10,7 @@ function App() {
   const [recording, setRecording] = useState(false);
   const [apiResponse, setapiResponse] = useState({ topic: null });
   const [explanations, setExplanations] = useState([]);
+  const [audioExplanation, setAudioExplanation] = useState(null);
   const latestButton = useRef(null);
   const explRef = useRef(explanations);
   const leftOffsetBtnRef = useRef(initialLeftOffset);
@@ -16,9 +18,14 @@ function App() {
 
   const getResponse = (apiData) => {
     // If utterance not recognized, ignore
+    console.log(apiData);
     if (apiData.topic !== "none") {
       setapiResponse(apiData);
     }
+  };
+
+  const removeExplanation = () => {
+    setAudioExplanation(null);
   };
 
   const setColorProp = (explanations) => {
@@ -82,17 +89,24 @@ function App() {
               intermediateExplanations
             );
           }
-          setNextButtonLocation();
-          setExplanations([
-            ...intermediateExplanations,
-            {
+          if (apiResponse.playInstantly == "true") {
+            setAudioExplanation({
               name: apiResponse.topic,
-              colored: true,
               url: apiResponse.url,
-              topOffset: topOffsetBtnRef.current,
-              leftOffset: leftOffsetBtnRef.current,
-            },
-          ]);
+            });
+          } else {
+            setNextButtonLocation();
+            setExplanations([
+              ...intermediateExplanations,
+              {
+                name: apiResponse.topic,
+                colored: true,
+                url: apiResponse.url,
+                topOffset: topOffsetBtnRef.current,
+                leftOffset: leftOffsetBtnRef.current,
+              },
+            ]);
+          }
         }
       }
       // Change color property of button if already exists
@@ -130,7 +144,15 @@ function App() {
       >
         {recording ? "Educator stoppen" : "Educator starten"}
       </button>
-      {<ExplanationButtons topics={explanations} />}
+      {audioExplanation && (
+        <PlayAudio
+          topic={audioExplanation.name}
+          url={audioExplanation.url}
+          callback={removeExplanation}
+        />
+      )}
+
+      <ExplanationButtons topics={explanations} />
     </>
   );
 }
