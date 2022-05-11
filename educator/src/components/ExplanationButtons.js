@@ -2,10 +2,6 @@ import React, { useState } from "react";
 import PlayVideo from "./explanations/PlayVideo";
 
 const ExplanationButtons = ({ topics }) => {
-  //topics.forEach((topic) => {
-  //  console.log(topic);
-  //});
-  // const [ExplanationComponent, setExplanationComponent] = useState(null);
   const [VideoStr, setVideoStr] = useState(null);
 
   const handleClick = (expl) => {
@@ -19,6 +15,11 @@ const ExplanationButtons = ({ topics }) => {
 
   var explanationButtons = topics.map((expl) => (
     <button
+      style={{
+        position: "absolute",
+        left: `${expl.leftOffset}%`,
+        top: `${expl.topOffset}%`,
+      }}
       className={
         expl.colored
           ? "button buttonExplanationMentioned"

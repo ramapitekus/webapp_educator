@@ -2,19 +2,30 @@ import "./App.css";
 import { useMemo, useState, useEffect, useRef } from "react";
 import ExplanationButtons from "./components/ExplanationButtons";
 import sttFromMic from "./components/S2t";
+import PlayAudio from "./components/explanations/PlayAudio";
 
 function App() {
+  const initialLeftOffset = 10;
+  const initialTopOffset = 40;
   const [recording, setRecording] = useState(false);
   const [apiResponse, setapiResponse] = useState({ topic: null });
   const [explanations, setExplanations] = useState([]);
+  const [audioExplanation, setAudioExplanation] = useState(null);
   const latestButton = useRef(null);
   const explRef = useRef(explanations);
+  const leftOffsetBtnRef = useRef(initialLeftOffset);
+  const topOffsetBtnRef = useRef(initialTopOffset);
 
   const getResponse = (apiData) => {
     // If utterance not recognized, ignore
+    console.log(apiData);
     if (apiData.topic !== "none") {
       setapiResponse(apiData);
     }
+  };
+
+  const removeExplanation = () => {
+    setAudioExplanation(null);
   };
 
   const setColorProp = (explanations) => {
@@ -51,35 +62,61 @@ function App() {
     );
   };
 
+  const setNextButtonLocation = () => {
+    if (topOffsetBtnRef.current > initialTopOffset) {
+      topOffsetBtnRef.current -= 15;
+    } else {
+      topOffsetBtnRef.current += 15;
+    }
+    leftOffsetBtnRef.current += 15;
+  };
+
   useEffect(() => {
     explRef.current = explanations;
   }, [explanations]);
 
-  useEffect(() => {
-    let intermediateExplanations = explanations;
-    if (apiResponse.topic) {
-      latestButton.current = apiResponse.topic;
+  useEffect(
+    () => {
+      let intermediateExplanations = explanations;
+      if (apiResponse.topic) {
+        latestButton.current = apiResponse.topic;
 
-      // Block which handles if button does not exist yet
-      if (!existsInArr(intermediateExplanations)) {
-        // If more than 5 buttons present, remove oldest one
-        if (intermediateExplanations.length >= 5) {
-          intermediateExplanations = removeOldestButton(
-            intermediateExplanations
-          );
+        // Block which handles if button does not exist yet
+        if (!existsInArr(intermediateExplanations)) {
+          // If more than 5 buttons present, remove oldest one
+          if (intermediateExplanations.length >= 5) {
+            intermediateExplanations = removeOldestButton(
+              intermediateExplanations
+            );
+          }
+          if (apiResponse.playInstantly == "true") {
+            setAudioExplanation({
+              name: apiResponse.topic,
+              url: apiResponse.url,
+            });
+          } else {
+            setNextButtonLocation();
+            setExplanations([
+              ...intermediateExplanations,
+              {
+                name: apiResponse.topic,
+                colored: true,
+                url: apiResponse.url,
+                topOffset: topOffsetBtnRef.current,
+                leftOffset: leftOffsetBtnRef.current,
+              },
+            ]);
+          }
         }
-        setExplanations([
-          ...intermediateExplanations,
-          { name: apiResponse.topic, colored: true, url: apiResponse.url },
-        ]);
       }
       // Change color property of button if already exists
       if (existsInArr(intermediateExplanations)) {
         setColorProp(intermediateExplanations);
       }
-    }
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [apiResponse]);
+    [apiResponse]
+  );
 
   // 10s after mentioning the topic, return the color back to gray
   useEffect(() => {
@@ -107,7 +144,15 @@ function App() {
       >
         {recording ? "Educator stoppen" : "Educator starten"}
       </button>
-      {<ExplanationButtons topics={explanations} />}
+      {audioExplanation && (
+        <PlayAudio
+          topic={audioExplanation.name}
+          url={audioExplanation.url}
+          callback={removeExplanation}
+        />
+      )}
+
+      <ExplanationButtons topics={explanations} />
     </>
   );
 }
