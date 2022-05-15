@@ -3,6 +3,7 @@ import { useMemo, useState, useEffect, useRef } from "react";
 import ExplanationButtons from "./components/ExplanationButtons";
 import sttFromMic from "./components/S2t";
 import PlayAudio from "./components/explanations/PlayAudio";
+import PlayVideo from "./components/explanations/PlayVideo";
 
 function App() {
   const initialLeftOffset = 10;
@@ -10,7 +11,7 @@ function App() {
   const [recording, setRecording] = useState(false);
   const [apiResponse, setapiResponse] = useState({ topic: null });
   const [explanations, setExplanations] = useState([]);
-  const [audioExplanation, setAudioExplanation] = useState(null);
+  const [instantExplanation, setInstantExplanation] = useState(null);
   const latestButton = useRef(null);
   const explRef = useRef(explanations);
   const leftOffsetBtnRef = useRef(initialLeftOffset);
@@ -25,7 +26,7 @@ function App() {
   };
 
   const removeExplanation = () => {
-    setAudioExplanation(null);
+    setInstantExplanation(null);
   };
 
   const setColorProp = (explanations) => {
@@ -90,9 +91,10 @@ function App() {
             );
           }
           if (apiResponse.playInstantly == "true") {
-            setAudioExplanation({
+            setInstantExplanation({
               name: apiResponse.topic,
               url: apiResponse.url,
+              mediaType: apiResponse.mediaType,
             });
           } else {
             setNextButtonLocation();
@@ -144,10 +146,12 @@ function App() {
       >
         {recording ? "Educator stoppen" : "Educator starten"}
       </button>
-      {audioExplanation && (
-        <PlayAudio
-          topic={audioExplanation.name}
-          url={audioExplanation.url}
+      {instantExplanation && instantExplanation.mediaType === "audio" && (
+        <PlayAudio url={instantExplanation.url} callback={removeExplanation} />
+      )}
+      {instantExplanation && instantExplanation.mediaType === "video" && (
+        <PlayVideo
+          videostr={instantExplanation.url}
           callback={removeExplanation}
         />
       )}
