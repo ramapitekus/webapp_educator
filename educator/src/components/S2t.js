@@ -15,7 +15,7 @@ function sttFromMic(setResponse) {
     // Add error handling
     recognizer.recognized = (_, e) => {
       var result = e.result;
-      if (result.reason === ResultReason.RecognizedSpeech) {
+      if (result.reason === ResultReason.RecognizedSpeech && result.text) {
         console.log(result.text);
         sendToAPI("http://localhost:5000/api/v1/models", result.text).then(
           (response) => {

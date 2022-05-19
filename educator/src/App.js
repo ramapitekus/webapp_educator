@@ -79,41 +79,42 @@ function App() {
   useEffect(
     () => {
       let intermediateExplanations = explanations;
-      if (apiResponse.topic) {
-        latestButton.current = apiResponse.topic;
 
-        // Block which handles if button does not exist yet
-        if (!existsInArr(intermediateExplanations)) {
-          // If more than 5 buttons present, remove oldest one
-          if (intermediateExplanations.length >= 5) {
-            intermediateExplanations = removeOldestButton(
-              intermediateExplanations
-            );
+      // Block which handles if button does not exist yet
+      if (apiResponse.topic) {
+        if (apiResponse.playInstantly == "true") {
+          setInstantExplanation({
+            name: apiResponse.topic,
+            url: apiResponse.url,
+            mediaType: apiResponse.mediaType,
+          });
+        } else {
+          latestButton.current = apiResponse.topic;
+          if (!existsInArr(intermediateExplanations)) {
+            // If more than 5 buttons present, remove oldest one
+            if (intermediateExplanations.length >= 5) {
+              intermediateExplanations = removeOldestButton(
+                intermediateExplanations
+              );
+            } else {
+              setNextButtonLocation();
+              setExplanations([
+                ...intermediateExplanations,
+                {
+                  name: apiResponse.topic,
+                  colored: true,
+                  url: apiResponse.url,
+                  topOffset: topOffsetBtnRef.current,
+                  leftOffset: leftOffsetBtnRef.current,
+                },
+              ]);
+            }
           }
-          if (apiResponse.playInstantly == "true") {
-            setInstantExplanation({
-              name: apiResponse.topic,
-              url: apiResponse.url,
-              mediaType: apiResponse.mediaType,
-            });
-          } else {
-            setNextButtonLocation();
-            setExplanations([
-              ...intermediateExplanations,
-              {
-                name: apiResponse.topic,
-                colored: true,
-                url: apiResponse.url,
-                topOffset: topOffsetBtnRef.current,
-                leftOffset: leftOffsetBtnRef.current,
-              },
-            ]);
+          if (existsInArr(intermediateExplanations)) {
+            setColorProp(intermediateExplanations);
           }
         }
-      }
-      // Change color property of button if already exists
-      if (existsInArr(intermediateExplanations)) {
-        setColorProp(intermediateExplanations);
+        // Change color property of button if already exists
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -126,7 +127,7 @@ function App() {
     setTimeout(() => {
       unsetColorProp(button);
     }, 10000);
-  }, [explanations]);
+  }, [explanations, instantExplanation]);
 
   let [startRec, stopRec] = useMemo(() => {
     return sttFromMic(getResponse);
@@ -134,6 +135,9 @@ function App() {
 
   useEffect(() => {
     recording ? startRec() : stopRec();
+    if (instantExplanation) {
+      setInstantExplanation(null);
+    }
   }, [recording]);
 
   return (
@@ -142,6 +146,7 @@ function App() {
         className={recording ? "button buttonStop" : "button buttonStart"}
         onClick={() => {
           setRecording(!recording);
+          setInstantExplanation(null);
         }}
       >
         {recording ? "Educator stoppen" : "Educator starten"}
