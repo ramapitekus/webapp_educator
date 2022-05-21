@@ -42,9 +42,7 @@ function App() {
 
   const unsetColorProp = (button) => {
     // TODO: Remove hacky copying
-
     var copyExplanations = JSON.parse(JSON.stringify(explRef.current));
-
     copyExplanations.forEach((explanation) => {
       if (explanation.name === button && explanation.colored === true) {
         explanation.colored = false;
@@ -75,9 +73,7 @@ function App() {
   };
 
   useEffect(() => {
-    if (explanations) {
-      explRef.current = explanations;
-    }
+    explRef.current = explanations;
   }, [explanations]);
 
   useEffect(
@@ -127,12 +123,10 @@ function App() {
 
   // 10s after mentioning the topic, return the color back to gray
   useEffect(() => {
-    if (explanations) {
-      const button = latestButton.current; // assign the button associated with this instance of useEffect
-      setTimeout(() => {
-        unsetColorProp(button);
-      }, 10000);
-    }
+    const button = latestButton.current; // assign the button associated with this instance of useEffect
+    setTimeout(() => {
+      unsetColorProp(button);
+    }, 10000);
   }, [explanations, instantExplanation]);
 
   let [startRec, stopRec] = useMemo(() => {
@@ -140,14 +134,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!recording) {
-      stopRec();
-    } else {
-      startRec();
-      setExplanations(null);
-    }
-    // recording ? startRec() : stopRec();
-    // Stop explaining when the "Educator stoppen" button is pressed
+    recording ? startRec() : stopRec();
     if (instantExplanation) {
       setInstantExplanation(null);
     }
@@ -174,7 +161,7 @@ function App() {
         />
       )}
 
-      {explanations && <ExplanationButtons topics={explanations} />}
+      {recording && <ExplanationButtons topics={explanations} />}
     </>
   );
 }
