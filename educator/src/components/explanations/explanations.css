@@ -1,18 +1,18 @@
 .modalStyles {
     position: fixed;
-    top: 30%;
-    left: 40%;
-    background-color: black;
+    width: 50px;
     padding: 50px;
+    border-radius: 100px;
+    background-color: black;
     z-index: 1000;
 }
 
+
 .overlayStyles {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: black;
+    border: 1px solid rgba(255, 255, 255, 0.18);
     z-index: 1000;
 }
