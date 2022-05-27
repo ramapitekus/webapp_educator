@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PlayVideo from "./explanations/PlayVideo";
 
-const ExplanationButtons = ({ topics }) => {
+const ExplanationButtons = ({ topics, isPlaying }) => {
   const [VideoStr, setVideoStr] = useState(null);
   const [BtnName, setBtnName] = useState(null);
   const [showButtons, setShowButtons] = useState(true);
@@ -48,6 +48,7 @@ const ExplanationButtons = ({ topics }) => {
           videostr={VideoStr}
           btnName={BtnName}
           callback={VideoCallback}
+          isPlaying={isPlaying}
         />
       )}
       <div>{showButtons && explanationButtons}</div>

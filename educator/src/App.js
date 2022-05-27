@@ -12,6 +12,7 @@ function App() {
   const [apiResponse, setapiResponse] = useState({ topic: null });
   const [explanations, setExplanations] = useState([]);
   const [instantExplanation, setInstantExplanation] = useState(null);
+  const isPlaying = useRef(false);
   const latestButton = useRef(null);
   const explRef = useRef(explanations);
   const leftOffsetBtnRef = useRef(initialLeftOffset);
@@ -27,6 +28,7 @@ function App() {
 
   const removeExplanation = () => {
     setInstantExplanation(null);
+    isPlaying.current = false;
   };
 
   const setColorProp = (explanations) => {
@@ -82,7 +84,7 @@ function App() {
 
       // Block which handles if button does not exist yet
       if (apiResponse.topic) {
-        if (apiResponse.playInstantly == "true") {
+        if (apiResponse.playInstantly === "true") {
           setInstantExplanation({
             name: apiResponse.topic,
             url: apiResponse.url,
@@ -130,7 +132,7 @@ function App() {
   }, [explanations, instantExplanation]);
 
   let [startRec, stopRec] = useMemo(() => {
-    return sttFromMic(getResponse);
+    return sttFromMic(getResponse, isPlaying);
   }, []);
 
   useEffect(() => {
@@ -152,16 +154,24 @@ function App() {
         {recording ? "Educator stoppen" : "Educator starten"}
       </button>
       {instantExplanation && instantExplanation.mediaType === "audio" && (
-        <PlayAudio url={instantExplanation.url} callback={removeExplanation} />
+        <PlayAudio
+          url={instantExplanation.url}
+          callback={removeExplanation}
+          isPlaying={isPlaying}
+        />
       )}
       {instantExplanation && instantExplanation.mediaType === "video" && (
         <PlayVideo
           videostr={instantExplanation.url}
+          btnName={instantExplanation.name}
           callback={removeExplanation}
+          isPlaying={isPlaying}
         />
       )}
 
-      {recording && <ExplanationButtons topics={explanations} />}
+      {recording && (
+        <ExplanationButtons topics={explanations} isPlaying={isPlaying} />
+      )}
     </>
   );
 }
