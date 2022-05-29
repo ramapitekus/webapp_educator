@@ -12,6 +12,7 @@ function App() {
   const [apiResponse, setapiResponse] = useState({ topic: null });
   const [explanations, setExplanations] = useState([]);
   const [instantExplanation, setInstantExplanation] = useState(null);
+  const [commandDuringVideo, setCommandDuringVideo] = useState(null);
   const isPlaying = useRef(false);
   const latestButton = useRef(null);
   const explRef = useRef(explanations);
@@ -24,12 +25,20 @@ function App() {
     if (apiData.topic !== "none") {
       setapiResponse(apiData);
     }
+
+    if (apiData.command) {
+      setCommandDuringVideo(apiData.command)
+    }
   };
 
-  const removeExplanation = () => {
+  const removeInstantExplanation = () => {
     setInstantExplanation(null);
     isPlaying.current = false;
+    if (commandDuringVideo){
+      setCommandDuringVideo(null)
   };
+  }
+
 
   const setColorProp = (explanations) => {
     // TODO: Remove hacky copying
@@ -156,21 +165,23 @@ function App() {
       {instantExplanation && instantExplanation.mediaType === "audio" && (
         <PlayAudio
           url={instantExplanation.url}
-          callback={removeExplanation}
+          callback={removeInstantExplanation}
           isPlaying={isPlaying}
+          command={commandDuringVideo}
         />
       )}
       {instantExplanation && instantExplanation.mediaType === "video" && (
         <PlayVideo
           videostr={instantExplanation.url}
           btnName={instantExplanation.name}
-          callback={removeExplanation}
+          callback={removeInstantExplanation}
           isPlaying={isPlaying}
+          command={commandDuringVideo}
         />
       )}
 
       {recording && (
-        <ExplanationButtons topics={explanations} isPlaying={isPlaying} />
+        <ExplanationButtons topics={explanations} isPlaying={isPlaying} command={commandDuringVideo} setCommandDuringVideo={setCommandDuringVideo}/>
       )}
     </>
   );
