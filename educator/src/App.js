@@ -3,6 +3,7 @@ import { useMemo, useState, useEffect, useRef } from "react";
 import ExplanationButtons from "./components/ExplanationButtons";
 import sttFromMic from "./components/S2t";
 import PlayAudio from "./components/explanations/PlayAudio";
+import PlayVideo from "./components/explanations/PlayVideo";
 
 function App() {
   const initialLeftOffset = 10;
@@ -10,7 +11,8 @@ function App() {
   const [recording, setRecording] = useState(false);
   const [apiResponse, setapiResponse] = useState({ topic: null });
   const [explanations, setExplanations] = useState([]);
-  const [audioExplanation, setAudioExplanation] = useState(null);
+  const [instantExplanation, setInstantExplanation] = useState(null);
+  const isPlaying = useRef(false);
   const latestButton = useRef(null);
   const explRef = useRef(explanations);
   const leftOffsetBtnRef = useRef(initialLeftOffset);
@@ -25,7 +27,8 @@ function App() {
   };
 
   const removeExplanation = () => {
-    setAudioExplanation(null);
+    setInstantExplanation(null);
+    isPlaying.current = false;
   };
 
   const setColorProp = (explanations) => {
@@ -78,40 +81,42 @@ function App() {
   useEffect(
     () => {
       let intermediateExplanations = explanations;
-      if (apiResponse.topic) {
-        latestButton.current = apiResponse.topic;
 
-        // Block which handles if button does not exist yet
-        if (!existsInArr(intermediateExplanations)) {
-          // If more than 5 buttons present, remove oldest one
-          if (intermediateExplanations.length >= 5) {
-            intermediateExplanations = removeOldestButton(
-              intermediateExplanations
-            );
+      // Block which handles if button does not exist yet
+      if (apiResponse.topic) {
+        if (apiResponse.playInstantly === "true") {
+          setInstantExplanation({
+            name: apiResponse.topic,
+            url: apiResponse.url,
+            mediaType: apiResponse.mediaType,
+          });
+        } else {
+          latestButton.current = apiResponse.topic;
+          if (!existsInArr(intermediateExplanations)) {
+            // If more than 5 buttons present, remove oldest one
+            if (intermediateExplanations.length >= 5) {
+              intermediateExplanations = removeOldestButton(
+                intermediateExplanations
+              );
+            } else {
+              setNextButtonLocation();
+              setExplanations([
+                ...intermediateExplanations,
+                {
+                  name: apiResponse.topic,
+                  colored: true,
+                  url: apiResponse.url,
+                  topOffset: topOffsetBtnRef.current,
+                  leftOffset: leftOffsetBtnRef.current,
+                },
+              ]);
+            }
           }
-          if (apiResponse.playInstantly == "true") {
-            setAudioExplanation({
-              name: apiResponse.topic,
-              url: apiResponse.url,
-            });
-          } else {
-            setNextButtonLocation();
-            setExplanations([
-              ...intermediateExplanations,
-              {
-                name: apiResponse.topic,
-                colored: true,
-                url: apiResponse.url,
-                topOffset: topOffsetBtnRef.current,
-                leftOffset: leftOffsetBtnRef.current,
-              },
-            ]);
+          if (existsInArr(intermediateExplanations)) {
+            setColorProp(intermediateExplanations);
           }
         }
-      }
-      // Change color property of button if already exists
-      if (existsInArr(intermediateExplanations)) {
-        setColorProp(intermediateExplanations);
+        // Change color property of button if already exists
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -124,14 +129,17 @@ function App() {
     setTimeout(() => {
       unsetColorProp(button);
     }, 10000);
-  }, [explanations]);
+  }, [explanations, instantExplanation]);
 
   let [startRec, stopRec] = useMemo(() => {
-    return sttFromMic(getResponse);
+    return sttFromMic(getResponse, isPlaying);
   }, []);
 
   useEffect(() => {
     recording ? startRec() : stopRec();
+    if (instantExplanation) {
+      setInstantExplanation(null);
+    }
   }, [recording]);
 
   return (
@@ -140,19 +148,30 @@ function App() {
         className={recording ? "button buttonStop" : "button buttonStart"}
         onClick={() => {
           setRecording(!recording);
+          setInstantExplanation(null);
         }}
       >
         {recording ? "Educator stoppen" : "Educator starten"}
       </button>
-      {audioExplanation && (
+      {instantExplanation && instantExplanation.mediaType === "audio" && (
         <PlayAudio
-          topic={audioExplanation.name}
-          url={audioExplanation.url}
+          url={instantExplanation.url}
           callback={removeExplanation}
+          isPlaying={isPlaying}
+        />
+      )}
+      {instantExplanation && instantExplanation.mediaType === "video" && (
+        <PlayVideo
+          videostr={instantExplanation.url}
+          btnName={instantExplanation.name}
+          callback={removeExplanation}
+          isPlaying={isPlaying}
         />
       )}
 
-      <ExplanationButtons topics={explanations} />
+      {recording && (
+        <ExplanationButtons topics={explanations} isPlaying={isPlaying} />
+      )}
     </>
   );
 }

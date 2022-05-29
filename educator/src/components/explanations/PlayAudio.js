@@ -1,13 +1,7 @@
-import { useRef, useEffect } from "react";
-
-const PlayAudio = ({ url, callback }) => {
-  const audioRef = useRef();
-
-  useEffect(() => {
-    audioRef.current.play();
-  }, []);
-
-  return <audio src={`${url}`} ref={audioRef} onEnded={callback} autoPlay />;
+const PlayAudio = ({ url, isPlaying }) => {
+  new Audio(url).play();
+  isPlaying.current = true;
+  return null;
 };
-// url={explanations.url} callback={removeExplanation(explanations.topic)
+
 export default PlayAudio;

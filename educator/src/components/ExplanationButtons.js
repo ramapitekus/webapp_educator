@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 import PlayVideo from "./explanations/PlayVideo";
 
-const ExplanationButtons = ({ topics }) => {
+const ExplanationButtons = ({ topics, isPlaying }) => {
   const [VideoStr, setVideoStr] = useState(null);
+  const [BtnName, setBtnName] = useState(null);
+  const [showButtons, setShowButtons] = useState(true);
 
   const handleClick = (expl) => {
-    // TODO: Add flag logic when implemented at the backend
     setVideoStr(expl.url);
+    setShowButtons(false);
+    setBtnName(expl.name);
   };
 
   const VideoCallback = () => {
     setVideoStr(null);
+    setBtnName(null);
+    setShowButtons(true);
   };
 
   var explanationButtons = topics.map((expl) => (
@@ -38,8 +43,15 @@ const ExplanationButtons = ({ topics }) => {
 
   return (
     <>
-      {VideoStr && <PlayVideo videostr={VideoStr} callback={VideoCallback} />}
-      <div>{explanationButtons}</div>
+      {VideoStr && (
+        <PlayVideo
+          videostr={VideoStr}
+          btnName={BtnName}
+          callback={VideoCallback}
+          isPlaying={isPlaying}
+        />
+      )}
+      <div>{showButtons && explanationButtons}</div>
     </>
   );
 };
