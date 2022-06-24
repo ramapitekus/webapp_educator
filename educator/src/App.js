@@ -17,17 +17,26 @@ function App() {
   const explRef = useRef(explanations);
   const leftOffsetBtnRef = useRef(initialLeftOffset);
   const topOffsetBtnRef = useRef(initialTopOffset);
+  // const instantExplanation = useRef(null);
 
   const getResponse = (apiData) => {
     // If utterance not recognized, ignore
     console.log(apiData);
     if (apiData.topic !== "none") {
+      if (apiData.playInstantly === "true") {
+        var obj = {name: apiData.topic,
+          url: apiData.url,
+          mediaType: apiData.mediaType
+          }
+        setInstantExplanation(obj);
+      } else {
       setapiResponse(apiData);
+      }
     }
   };
 
   const removeExplanation = () => {
-    setInstantExplanation(null);
+    instantExplanation.mediaType = null;
     isPlaying.current = false;
   };
 
@@ -84,13 +93,13 @@ function App() {
 
       // Block which handles if button does not exist yet
       if (apiResponse.topic) {
-        if (apiResponse.playInstantly === "true") {
-          setInstantExplanation({
-            name: apiResponse.topic,
-            url: apiResponse.url,
-            mediaType: apiResponse.mediaType,
-          });
-        } else {
+      //   if (apiResponse.playInstantly === "true") {
+      //     instantExplanation.current = {
+      //       name: apiResponse.topic,
+      //       url: apiResponse.url,
+      //       mediaType: apiResponse.mediaType,
+      //     };
+      //   } else {
           latestButton.current = apiResponse.topic;
           if (!existsInArr(intermediateExplanations)) {
             // If more than 5 buttons present, remove oldest one
@@ -114,12 +123,12 @@ function App() {
           }
           if (existsInArr(intermediateExplanations)) {
             setColorProp(intermediateExplanations);
-          }
+          //}
         }
         // Change color property of button if already exists
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    //// eslint-disable-next-line react-hooks/exhaustive-deps
     [apiResponse]
   );
 
@@ -129,7 +138,7 @@ function App() {
     setTimeout(() => {
       unsetColorProp(button);
     }, 10000);
-  }, [explanations, instantExplanation]);
+  }, [explanations]);
 
   let [startRec, stopRec] = useMemo(() => {
     return sttFromMic(getResponse, isPlaying);
