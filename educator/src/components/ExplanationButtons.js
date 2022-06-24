@@ -1,21 +1,25 @@
 import React, { useState } from "react";
 import PlayVideo from "./explanations/PlayVideo";
 
-const ExplanationButtons = ({ topics, isPlaying }) => {
+const ExplanationButtons = ({ topics, isPlaying, removeExpl, command, setCommandDuringVideo }) => {
   const [VideoStr, setVideoStr] = useState(null);
   const [BtnName, setBtnName] = useState(null);
   const [showButtons, setShowButtons] = useState(true);
-
+  
   const handleClick = (expl) => {
     setVideoStr(expl.url);
     setShowButtons(false);
     setBtnName(expl.name);
   };
 
-  const VideoCallback = () => {
+  const removeExplanation = () => {
     setVideoStr(null);
     setBtnName(null);
     setShowButtons(true);
+    isPlaying.current = false;
+    if (command){
+      setCommandDuringVideo(null)
+    }
   };
 
   var explanationButtons = topics.map((expl) => (
@@ -30,7 +34,6 @@ const ExplanationButtons = ({ topics, isPlaying }) => {
           ? "button buttonExplanationMentioned"
           : "button buttonExplanation"
       }
-      //TODO: Add reasonable keys
       key={Math.random()}
       onClick={() => {
         handleClick(expl);
@@ -47,8 +50,10 @@ const ExplanationButtons = ({ topics, isPlaying }) => {
         <PlayVideo
           videostr={VideoStr}
           btnName={BtnName}
-          callback={VideoCallback}
+          callback={() => {removeExplanation()}}
           isPlaying={isPlaying}
+          command={command}
+          setCommandDuringVideo={setCommandDuringVideo}
         />
       )}
       <div>{showButtons && explanationButtons}</div>

@@ -5,6 +5,6 @@ const PlayAudio = ({ url, callback, isPlaying }) => {
   audio.onended = callback;
   
   return null;
-};
+}
 
 export default PlayAudio;

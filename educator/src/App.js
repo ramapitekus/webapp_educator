@@ -9,6 +9,7 @@ function App() {
   const initialLeftOffset = 10;
   const initialTopOffset = 40;
   const [recording, setRecording] = useState(false);
+  const [commandDuringVideo, setCommandDuringVideo] = useState(null);
   const [apiResponse, setapiResponse] = useState({ topic: null });
   const [explanations, setExplanations] = useState([]);
   const [instantExplanation, setInstantExplanation] = useState(null);
@@ -17,11 +18,13 @@ function App() {
   const explRef = useRef(explanations);
   const leftOffsetBtnRef = useRef(initialLeftOffset);
   const topOffsetBtnRef = useRef(initialTopOffset);
-  // const instantExplanation = useRef(null);
 
   const getResponse = (apiData) => {
     // If utterance not recognized, ignore
     console.log(apiData);
+    if (apiData.command) {
+      setCommandDuringVideo(apiData.command)
+    }
     if (apiData.topic !== "none") {
       if (apiData.playInstantly === "true") {
         var obj = {name: apiData.topic,
@@ -93,13 +96,6 @@ function App() {
 
       // Block which handles if button does not exist yet
       if (apiResponse.topic) {
-      //   if (apiResponse.playInstantly === "true") {
-      //     instantExplanation.current = {
-      //       name: apiResponse.topic,
-      //       url: apiResponse.url,
-      //       mediaType: apiResponse.mediaType,
-      //     };
-      //   } else {
           latestButton.current = apiResponse.topic;
           if (!existsInArr(intermediateExplanations)) {
             // If more than 5 buttons present, remove oldest one
@@ -179,7 +175,7 @@ function App() {
       )}
 
       {recording && (
-        <ExplanationButtons topics={explanations} isPlaying={isPlaying} />
+        <ExplanationButtons topics={explanations} isPlaying={isPlaying} command={commandDuringVideo} setCommandDuringVideo={setCommandDuringVideo} />
       )}
     </>
   );
