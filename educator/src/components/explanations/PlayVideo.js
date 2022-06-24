@@ -22,7 +22,7 @@ const PlayVideo = ({ videostr, btnName, callback, isPlaying, command }) => {
       </div>
       <div className="modalStyles" />
       <div className="overlayStyles">
-        <video src={`${videostr}`} width="1500" height="1000" ref={vidRef} />
+        <video src={`${videostr}`} width="1500" height="1000" ref={vidRef} onEnded={callback}/>
         <button className="button buttonEndExplanationVideo" onClick={callback}>
           Zurück
         </button>
