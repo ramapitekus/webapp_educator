@@ -1,12 +1,12 @@
 import { useRef, useEffect } from "react";
 import "./explanations.css";
 
-const PlayVideo = ({ videostr, btnName, callback, isPlaying, command }) => {
+const PlayVideo = ({ videostr, btnName, callback, command, commandDuringPlay }) => {
   const vidRef = useRef();
 
   useEffect(() => {
     vidRef.current.play();
-    isPlaying.current = true;
+    commandDuringPlay.current = "playing";
   }, []);
 
   useEffect(() => {

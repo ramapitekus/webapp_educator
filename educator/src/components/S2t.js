@@ -1,6 +1,6 @@
 import { ResultReason } from "microsoft-cognitiveservices-speech-sdk";
 
-function sttFromMic(setResponse, isPlaying) {
+function sttFromMic(setResponse, commandDuringPlay) {
   const sdk = require("microsoft-cognitiveservices-speech-sdk");
   const speechConfig = sdk.SpeechConfig.fromSubscription(
     "2ed0fc03d2e441388c4fd35cc91c23b3",
@@ -20,7 +20,7 @@ function sttFromMic(setResponse, isPlaying) {
         sendToAPI(
           "http://localhost:5000/api/v1/models",
           result.text,
-          isPlaying
+          commandDuringPlay
         ).then((response) => {
           console.log(
             "Answer from the API:\n" +
@@ -43,12 +43,12 @@ function sttFromMic(setResponse, isPlaying) {
   return [startRecording, stopRecording];
 }
 
-async function sendToAPI(url, message, isPlaying) {
+async function sendToAPI(url, message, commandDuringPlay) {
   // Simple POST request with a JSON body using fetch
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message: message, isPlaying: isPlaying.current }),
+    body: JSON.stringify({ message: message, commandDuringPlay: commandDuringPlay.current }),
   };
 
   let response = await fetch(url, requestOptions);

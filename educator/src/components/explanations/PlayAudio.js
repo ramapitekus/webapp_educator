@@ -1,7 +1,7 @@
-const PlayAudio = ({ url, callback, isPlaying }) => {
+const PlayAudio = ({ url, callback, commandDuringPlay }) => {
   var audio = new Audio(url);
   audio.play();
-  isPlaying.current = true;
+  commandDuringPlay.current = "playing";
   audio.onended = callback;
   
   return null;

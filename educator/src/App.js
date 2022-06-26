@@ -13,7 +13,8 @@ function App() {
   const [apiResponse, setapiResponse] = useState({ topic: null });
   const [explanations, setExplanations] = useState([]);
   const [instantExplanation, setInstantExplanation] = useState(null);
-  const isPlaying = useRef(false);
+  // const isPlaying = useRef(false);
+  const commandDuringPlay = useRef("idle");
   const latestButton = useRef(null);
   const explRef = useRef(explanations);
   const leftOffsetBtnRef = useRef(initialLeftOffset);
@@ -40,7 +41,7 @@ function App() {
 
   const removeExplanation = () => {
     instantExplanation.mediaType = null;
-    isPlaying.current = false;
+    commandDuringPlay.current = "idle";
   };
 
   const setColorProp = (explanations) => {
@@ -137,10 +138,11 @@ function App() {
   }, [explanations]);
 
   let [startRec, stopRec] = useMemo(() => {
-    return sttFromMic(getResponse, isPlaying);
+    return sttFromMic(getResponse, commandDuringPlay);
   }, []);
 
   useEffect(() => {
+    // if (recording){startRec()} maybe use?
     recording ? startRec() : stopRec();
     if (instantExplanation) {
       setInstantExplanation(null);
@@ -162,7 +164,7 @@ function App() {
         <PlayAudio
           url={instantExplanation.url}
           callback={removeExplanation}
-          isPlaying={isPlaying}
+          commandDuringPlay={commandDuringPlay}
         />
       )}
       {instantExplanation && instantExplanation.mediaType === "video" && (
@@ -170,12 +172,13 @@ function App() {
           videostr={instantExplanation.url}
           btnName={instantExplanation.name}
           callback={removeExplanation}
-          isPlaying={isPlaying}
+          command={commandDuringVideo}
+          commandDuringPlay={commandDuringPlay}
         />
       )}
 
       {recording && (
-        <ExplanationButtons topics={explanations} isPlaying={isPlaying} command={commandDuringVideo} setCommandDuringVideo={setCommandDuringVideo} />
+        <ExplanationButtons topics={explanations} commandDuringPlay={commandDuringPlay} command={commandDuringVideo} setCommandDuringVideo={setCommandDuringVideo} />
       )}
     </>
   );

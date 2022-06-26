@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PlayVideo from "./explanations/PlayVideo";
 
-const ExplanationButtons = ({ topics, isPlaying, removeExpl, command, setCommandDuringVideo }) => {
+const ExplanationButtons = ({ topics, commandDuringPlay, removeExpl, command, setCommandDuringVideo }) => {
   const [VideoStr, setVideoStr] = useState(null);
   const [BtnName, setBtnName] = useState(null);
   const [showButtons, setShowButtons] = useState(true);
@@ -16,8 +16,8 @@ const ExplanationButtons = ({ topics, isPlaying, removeExpl, command, setCommand
     setVideoStr(null);
     setBtnName(null);
     setShowButtons(true);
-    isPlaying.current = false;
-    if (command){
+    commandDuringPlay.current = "idle";
+    if (command === "stopVideo"){
       setCommandDuringVideo(null)
     }
   };
@@ -51,9 +51,8 @@ const ExplanationButtons = ({ topics, isPlaying, removeExpl, command, setCommand
           videostr={VideoStr}
           btnName={BtnName}
           callback={() => {removeExplanation()}}
-          isPlaying={isPlaying}
           command={command}
-          setCommandDuringVideo={setCommandDuringVideo}
+          commandDuringPlay={commandDuringPlay}
         />
       )}
       <div>{showButtons && explanationButtons}</div>
