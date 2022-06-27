@@ -7,11 +7,13 @@ const PlayVideo = ({
   callback,
   explanationType,
   command,
+  setShowButtons,
 }) => {
   const vidRef = useRef();
 
   useEffect(() => {
     vidRef.current.play();
+    setShowButtons(false);
     explanationType.current = "playing";
   }, []);
 
@@ -37,7 +39,7 @@ const PlayVideo = ({
       <div className="modalStyles" />
       <div className="overlayStyles">
         <video
-          src={`${videostr}`}
+          src={videostr}
           width="1500"
           height="1000"
           ref={vidRef}

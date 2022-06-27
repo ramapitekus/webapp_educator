@@ -22,7 +22,7 @@ const PlayAudio = ({ url, callback, explanationType, command }) => {
     }
   }, [command]);
 
-  return <audio src={`${url}`} ref={audRef} onEnded={callback} />;
+  return <audio src={url} ref={audRef} onEnded={callback} />;
 };
 
 export default PlayAudio;

@@ -11,6 +11,7 @@ function App() {
   const [recording, setRecording] = useState(false);
   const [commandDuringVideo, setCommandDuringVideo] = useState(null);
   const [apiResponse, setapiResponse] = useState({ topic: null });
+  const [showButtons, setShowButtons] = useState(true);
   const [explanations, setExplanations] = useState([]);
   const [instantExplanation, setInstantExplanation] = useState(null);
   const explanationType = useRef("idle");
@@ -42,6 +43,7 @@ function App() {
     instantExplanation.mediaType = null;
     explanationType.current = "idle";
     setInstantExplanation(null);
+    setShowButtons(true);
   };
 
   const setColorProp = (explanations) => {
@@ -173,6 +175,7 @@ function App() {
           callback={removeExplanation}
           explanationType={explanationType}
           command={commandDuringVideo}
+          setShowButtons={setShowButtons}
         />
       )}
 
@@ -182,6 +185,8 @@ function App() {
           explanationType={explanationType}
           command={commandDuringVideo}
           setCommandDuringVideo={setCommandDuringVideo}
+          showButtons={showButtons}
+          setShowButtons={setShowButtons}
         />
       )}
     </>

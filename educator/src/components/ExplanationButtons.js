@@ -6,14 +6,14 @@ const ExplanationButtons = ({
   explanationType,
   command,
   setCommandDuringVideo,
+  showButtons,
+  setShowButtons,
 }) => {
   const [VideoStr, setVideoStr] = useState(null);
   const [BtnName, setBtnName] = useState(null);
-  const [showButtons, setShowButtons] = useState(true);
 
   const handleClick = (expl) => {
     setVideoStr(expl.url);
-    setShowButtons(false);
     setBtnName(expl.name);
   };
 
@@ -26,10 +26,6 @@ const ExplanationButtons = ({
       setCommandDuringVideo(null);
     }
   };
-
-  // const pauseExplanation = () => {
-  //
-  // }
 
   var explanationButtons = topics.map((expl) => (
     <button
@@ -64,7 +60,7 @@ const ExplanationButtons = ({
           }}
           explanationType={explanationType}
           command={command}
-          setCommandDuringVideo={setCommandDuringVideo}
+          setShowButtons={setShowButtons}
         />
       )}
       <div>{showButtons && explanationButtons}</div>
