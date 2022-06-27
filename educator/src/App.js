@@ -13,8 +13,7 @@ function App() {
   const [apiResponse, setapiResponse] = useState({ topic: null });
   const [explanations, setExplanations] = useState([]);
   const [instantExplanation, setInstantExplanation] = useState(null);
-  // const isPlaying = useRef(false);
-  const commandDuringPlay = useRef("idle");
+  const explanationType = useRef("idle");
   const latestButton = useRef(null);
   const explRef = useRef(explanations);
   const leftOffsetBtnRef = useRef(initialLeftOffset);
@@ -24,24 +23,25 @@ function App() {
     // If utterance not recognized, ignore
     console.log(apiData);
     if (apiData.command) {
-      setCommandDuringVideo(apiData.command)
+      setCommandDuringVideo(apiData.command);
     }
     if (apiData.topic !== "none") {
       if (apiData.playInstantly === "true") {
-        var obj = {name: apiData.topic,
+        setInstantExplanation({
+          name: apiData.topic,
           url: apiData.url,
-          mediaType: apiData.mediaType
-          }
-        setInstantExplanation(obj);
+          mediaType: apiData.mediaType,
+        });
       } else {
-      setapiResponse(apiData);
+        setapiResponse(apiData);
       }
     }
   };
 
   const removeExplanation = () => {
     instantExplanation.mediaType = null;
-    commandDuringPlay.current = "idle";
+    explanationType.current = "idle";
+    setInstantExplanation(null);
   };
 
   const setColorProp = (explanations) => {
@@ -97,29 +97,29 @@ function App() {
 
       // Block which handles if button does not exist yet
       if (apiResponse.topic) {
-          latestButton.current = apiResponse.topic;
-          if (!existsInArr(intermediateExplanations)) {
-            // If more than 5 buttons present, remove oldest one
-            if (intermediateExplanations.length >= 5) {
-              intermediateExplanations = removeOldestButton(
-                intermediateExplanations
-              );
-            } else {
-              setNextButtonLocation();
-              setExplanations([
-                ...intermediateExplanations,
-                {
-                  name: apiResponse.topic,
-                  colored: true,
-                  url: apiResponse.url,
-                  topOffset: topOffsetBtnRef.current,
-                  leftOffset: leftOffsetBtnRef.current,
-                },
-              ]);
-            }
+        latestButton.current = apiResponse.topic;
+        if (!existsInArr(intermediateExplanations)) {
+          // If more than 5 buttons present, remove oldest one
+          if (intermediateExplanations.length >= 5) {
+            intermediateExplanations = removeOldestButton(
+              intermediateExplanations
+            );
+          } else {
+            setNextButtonLocation();
+            setExplanations([
+              ...intermediateExplanations,
+              {
+                name: apiResponse.topic,
+                colored: true,
+                url: apiResponse.url,
+                topOffset: topOffsetBtnRef.current,
+                leftOffset: leftOffsetBtnRef.current,
+              },
+            ]);
           }
-          if (existsInArr(intermediateExplanations)) {
-            setColorProp(intermediateExplanations);
+        }
+        if (existsInArr(intermediateExplanations)) {
+          setColorProp(intermediateExplanations);
           //}
         }
         // Change color property of button if already exists
@@ -138,11 +138,10 @@ function App() {
   }, [explanations]);
 
   let [startRec, stopRec] = useMemo(() => {
-    return sttFromMic(getResponse, commandDuringPlay);
+    return sttFromMic(getResponse, explanationType);
   }, []);
 
   useEffect(() => {
-    // if (recording){startRec()} maybe use?
     recording ? startRec() : stopRec();
     if (instantExplanation) {
       setInstantExplanation(null);
@@ -164,7 +163,7 @@ function App() {
         <PlayAudio
           url={instantExplanation.url}
           callback={removeExplanation}
-          commandDuringPlay={commandDuringPlay}
+          explanationType={explanationType}
         />
       )}
       {instantExplanation && instantExplanation.mediaType === "video" && (
@@ -172,13 +171,18 @@ function App() {
           videostr={instantExplanation.url}
           btnName={instantExplanation.name}
           callback={removeExplanation}
+          explanationType={explanationType}
           command={commandDuringVideo}
-          commandDuringPlay={commandDuringPlay}
         />
       )}
 
       {recording && (
-        <ExplanationButtons topics={explanations} commandDuringPlay={commandDuringPlay} command={commandDuringVideo} setCommandDuringVideo={setCommandDuringVideo} />
+        <ExplanationButtons
+          topics={explanations}
+          explanationType={explanationType}
+          command={commandDuringVideo}
+          setCommandDuringVideo={setCommandDuringVideo}
+        />
       )}
     </>
   );

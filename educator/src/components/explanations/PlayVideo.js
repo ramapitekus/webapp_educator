@@ -1,19 +1,25 @@
 import { useRef, useEffect } from "react";
 import "./explanations.css";
 
-const PlayVideo = ({ videostr, btnName, callback, command, commandDuringPlay }) => {
+const PlayVideo = ({
+  videostr,
+  btnName,
+  callback,
+  explanationType,
+  command,
+}) => {
   const vidRef = useRef();
 
   useEffect(() => {
     vidRef.current.play();
-    commandDuringPlay.current = "playing";
+    explanationType.current = "playing";
   }, []);
 
   useEffect(() => {
-    if (command === "stopVideo"){
+    if (command === "stopExplanation") {
       callback();
     }
-  }, [command])
+  }, [command]);
 
   return (
     <>
@@ -22,7 +28,13 @@ const PlayVideo = ({ videostr, btnName, callback, command, commandDuringPlay }) 
       </div>
       <div className="modalStyles" />
       <div className="overlayStyles">
-        <video src={`${videostr}`} width="1500" height="1000" ref={vidRef} onEnded={callback}/>
+        <video
+          src={`${videostr}`}
+          width="1500"
+          height="1000"
+          ref={vidRef}
+          onEnded={callback}
+        />
         <button className="button buttonEndExplanationVideo" onClick={callback}>
           Zurück
         </button>

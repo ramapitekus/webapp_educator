@@ -1,18 +1,17 @@
 import { ResultReason } from "microsoft-cognitiveservices-speech-sdk";
 
-function sttFromMic(setResponse, commandDuringPlay) {
+function sttFromMic(setResponse, explanationType) {
   const sdk = require("microsoft-cognitiveservices-speech-sdk");
   const speechConfig = sdk.SpeechConfig.fromSubscription(
-    "2ed0fc03d2e441388c4fd35cc91c23b3",
-    "eastus"
+    "b8a6fd9cb3e74ef8870ca93b79b68296",
+    "switzerlandnorth"
   );
-  speechConfig.speechRecognitionLanguage = "en-US";
+  speechConfig.speechRecognitionLanguage = "de-CH";
   const audioConfig = sdk.AudioConfig.fromDefaultMicrophoneInput();
   const recognizer = new sdk.SpeechRecognizer(speechConfig, audioConfig);
 
   async function startRecording() {
     recognizer.startContinuousRecognitionAsync();
-    // Add error handling
     recognizer.recognized = (_, e) => {
       var result = e.result;
       if (result.reason === ResultReason.RecognizedSpeech && result.text) {
@@ -20,7 +19,7 @@ function sttFromMic(setResponse, commandDuringPlay) {
         sendToAPI(
           "http://localhost:5000/api/v1/models",
           result.text,
-          commandDuringPlay
+          explanationType
         ).then((response) => {
           console.log(
             "Answer from the API:\n" +
@@ -43,12 +42,15 @@ function sttFromMic(setResponse, commandDuringPlay) {
   return [startRecording, stopRecording];
 }
 
-async function sendToAPI(url, message, commandDuringPlay) {
+async function sendToAPI(url, message, explanationType) {
   // Simple POST request with a JSON body using fetch
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message: message, commandDuringPlay: commandDuringPlay.current }),
+    body: JSON.stringify({
+      message: message,
+      explanationState: explanationType.current,
+    }),
   };
 
   let response = await fetch(url, requestOptions);

@@ -1,10 +1,10 @@
-const PlayAudio = ({ url, callback, commandDuringPlay }) => {
+const PlayAudio = ({ url, callback, explanationType }) => {
   var audio = new Audio(url);
   audio.play();
-  commandDuringPlay.current = "playing";
+  explanationType.current = "playing";
   audio.onended = callback;
-  
+
   return null;
-}
+};
 
 export default PlayAudio;
