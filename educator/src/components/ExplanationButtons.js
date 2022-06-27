@@ -27,6 +27,10 @@ const ExplanationButtons = ({
     }
   };
 
+  // const pauseExplanation = () => {
+  //
+  // }
+
   var explanationButtons = topics.map((expl) => (
     <button
       style={{

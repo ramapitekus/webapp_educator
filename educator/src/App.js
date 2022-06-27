@@ -154,7 +154,6 @@ function App() {
         className={recording ? "button buttonStop" : "button buttonStart"}
         onClick={() => {
           setRecording(!recording);
-          setInstantExplanation(null);
         }}
       >
         {recording ? "Educator stoppen" : "Educator starten"}
@@ -164,6 +163,7 @@ function App() {
           url={instantExplanation.url}
           callback={removeExplanation}
           explanationType={explanationType}
+          command={commandDuringVideo}
         />
       )}
       {instantExplanation && instantExplanation.mediaType === "video" && (

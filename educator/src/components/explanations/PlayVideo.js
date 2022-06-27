@@ -19,6 +19,14 @@ const PlayVideo = ({
     if (command === "stopExplanation") {
       callback();
     }
+    if (command === "pauseExplanation") {
+      vidRef.current.pause();
+      explanationType.current = "paused";
+    }
+    if (command === "resumeExplanation") {
+      vidRef.current.play();
+      explanationType.current = "playing";
+    }
   }, [command]);
 
   return (
