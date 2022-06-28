@@ -1,7 +1,9 @@
 import { useEffect, useRef } from "react";
+import TextHighlight from "./TextHighlight";
 
 const PlayAudio = ({
   url,
+  json_url,
   callback,
   explanationType,
   command,
@@ -13,6 +15,8 @@ const PlayAudio = ({
     audRef.current.play();
     explanationType.current = "playing";
     setShowButtons(false);
+    //console.log(json_url);
+    //TextHighlight(json_url);
   }, []);
 
   useEffect(() => {
