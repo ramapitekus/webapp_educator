@@ -32,6 +32,7 @@ function App() {
           name: apiData.topic,
           url: apiData.url,
           mediaType: apiData.mediaType,
+          align_url: apiData.align_url,
         });
       } else {
         setapiResponse(apiData);
@@ -44,7 +45,7 @@ function App() {
     explanationType.current = "idle";
     setInstantExplanation(null);
     setShowButtons(true);
-    setCommandDuringVideo(null);
+    //setCommandDuringVideo(null);
   };
 
   const setColorProp = (explanations) => {
@@ -164,6 +165,7 @@ function App() {
       {instantExplanation && instantExplanation.mediaType === "audio" && (
         <PlayAudio
           url={instantExplanation.url}
+          json_url={instantExplanation.align_url}
           callback={removeExplanation}
           explanationType={explanationType}
           command={commandDuringVideo}
