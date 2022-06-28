@@ -7,10 +7,11 @@ const PlayAudio = ({
   command,
   setShowButtons,
 }) => {
-  const audRef = useRef();
+  let audio = new Audio(url);
+  audio.onended = callback;
 
   useEffect(() => {
-    audRef.current.play();
+    audio.play();
     explanationType.current = "playing";
     setShowButtons(false);
   }, []);
@@ -20,16 +21,16 @@ const PlayAudio = ({
       callback();
     }
     if (command === "pauseExplanation") {
-      audRef.current.pause();
+      audio.pause();
       explanationType.current = "paused";
     }
     if (command === "resumeExplanation") {
-      audRef.current.play();
+      audio.play();
       explanationType.current = "playing";
     }
   }, [command]);
 
-  return <audio src={url} ref={audRef} onEnded={callback} />;
+  return null;
 };
 
 export default PlayAudio;
