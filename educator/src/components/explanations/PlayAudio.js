@@ -1,11 +1,18 @@
 import { useEffect, useRef } from "react";
 
-const PlayAudio = ({ url, callback, explanationType, command }) => {
+const PlayAudio = ({
+  url,
+  callback,
+  explanationType,
+  command,
+  setShowButtons,
+}) => {
   const audRef = useRef();
 
   useEffect(() => {
     audRef.current.play();
     explanationType.current = "playing";
+    setShowButtons(false);
   }, []);
 
   useEffect(() => {
