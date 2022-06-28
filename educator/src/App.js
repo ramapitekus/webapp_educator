@@ -45,7 +45,7 @@ function App() {
     explanationType.current = "idle";
     setInstantExplanation(null);
     setShowButtons(true);
-    //setCommandDuringVideo(null);
+    // setCommandDuringVideo(null);
   };
 
   const setColorProp = (explanations) => {

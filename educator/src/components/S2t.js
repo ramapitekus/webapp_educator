@@ -3,8 +3,8 @@ import { ResultReason } from "microsoft-cognitiveservices-speech-sdk";
 function sttFromMic(setResponse, explanationType) {
   const sdk = require("microsoft-cognitiveservices-speech-sdk");
   const speechConfig = sdk.SpeechConfig.fromSubscription(
-    "b8a6fd9cb3e74ef8870ca93b79b68296",
-    "switzerlandnorth"
+    "2ed0fc03d2e441388c4fd35cc91c23b3",
+    "eastus"
   );
   speechConfig.speechRecognitionLanguage = "de-CH";
   const audioConfig = sdk.AudioConfig.fromDefaultMicrophoneInput();
