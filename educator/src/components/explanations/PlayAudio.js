@@ -10,7 +10,11 @@ const PlayAudio = ({
   setShowButtons,
 }) => {
   let audio = new Audio(url);
-  audio.onended = callback;
+  audio.onended = stopAudio;
+
+  async function stopAudio() {
+    await new Promise(() => setTimeout(callback, 3000));
+  }
 
   useEffect(() => {
     audio.play();
