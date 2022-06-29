@@ -46,18 +46,19 @@ const TextHighlight = ({ json_url }) => {
         function resolve() {
           let word = textAlignmentJson[indx];
           let newWord = word.lines[0];
+          accWords.current = accWords.current + " " + newWord;
           setNewWord(newWord);
         }
 
         await new Promise(() =>
-          setTimeout(resolve, (word.end - word.begin - 0.3) * 1000)
+          setTimeout(resolve, (word.end - word.begin) * 1000)
         );
       }
     }
 
-    accWords.current = accWords.current + " " + newWord;
     counter.current += 1;
     wait();
+    // accWords.current = accWords.current + " " + newWord;
   }, [newWord]);
 
   return <h1>{accWords.current}</h1>;
