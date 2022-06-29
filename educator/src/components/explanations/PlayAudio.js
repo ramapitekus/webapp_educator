@@ -42,7 +42,7 @@ const PlayAudio = ({
       explanationType.current = "paused";
     }
     if (command === "resumeExplanation") {
-      audio.play();
+      audRef.current.play();
       explanationType.current = "playing";
     }
   }, [command]);
