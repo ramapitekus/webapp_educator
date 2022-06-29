@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-const TextHighlight = ({ json_url }) => {
+const TextHighlight = ({ json_url, stopCommandUsed }) => {
   const [newWord, setNewWord] = useState("");
   const accWords = useRef("");
   const counter = useRef(-1);
@@ -44,10 +44,12 @@ const TextHighlight = ({ json_url }) => {
         let word = textAlignmentJson[indx];
 
         function resolve() {
-          let word = textAlignmentJson[indx];
-          let newWord = word.lines[0];
-          accWords.current = accWords.current + " " + newWord;
-          setNewWord(newWord);
+          if (!stopCommandUsed.current) {
+            let word = textAlignmentJson[indx];
+            let newWord = word.lines[0];
+            accWords.current = accWords.current + " " + newWord;
+            setNewWord(newWord);
+          }
         }
 
         await new Promise(() =>

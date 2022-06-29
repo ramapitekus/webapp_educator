@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import TextHighlight from "./TextHighlight";
 
 const PlayAudio = ({
@@ -9,26 +9,36 @@ const PlayAudio = ({
   command,
   setShowButtons,
 }) => {
+  const audRef = useRef(null);
   let audio = new Audio(url);
   audio.onended = stopAudio;
+  const stopCommandUsed = useRef(false);
 
   async function stopAudio() {
-    await new Promise(() => setTimeout(callback, 3000));
+    await new Promise(() =>
+      setTimeout(function () {
+        if (!stopCommandUsed.current) {
+          callback();
+        }
+      }, 3000)
+    );
   }
 
   useEffect(() => {
-    audio.play();
+    audRef.current = audio;
     explanationType.current = "playing";
+    audio.play();
     setShowButtons(false);
-    //console.log(json_url);
   }, []);
 
   useEffect(() => {
     if (command === "stopExplanation") {
+      audRef.current.pause();
+      stopCommandUsed.current = true;
       callback();
     }
     if (command === "pauseExplanation") {
-      audio.pause();
+      audRef.current.pause();
       explanationType.current = "paused";
     }
     if (command === "resumeExplanation") {
@@ -37,7 +47,9 @@ const PlayAudio = ({
     }
   }, [command]);
 
-  return <TextHighlight json_url={json_url} />;
+  return (
+    <TextHighlight json_url={json_url} stopCommandUsed={stopCommandUsed} />
+  );
 };
 
 export default PlayAudio;

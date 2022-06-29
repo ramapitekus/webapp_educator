@@ -52,7 +52,7 @@ async function sendToAPI(url, message, explanationType) {
       explanationState: explanationType.current,
     }),
   };
-
+  console.log(requestOptions);
   let response = await fetch(url, requestOptions);
   return response.json();
 }

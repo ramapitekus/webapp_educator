@@ -41,11 +41,10 @@ function App() {
   };
 
   const removeExplanation = () => {
-    instantExplanation.mediaType = null;
     explanationType.current = "idle";
     setInstantExplanation(null);
     setShowButtons(true);
-    // setCommandDuringVideo(null);
+    setCommandDuringVideo(null);
   };
 
   const setColorProp = (explanations) => {
@@ -162,6 +161,7 @@ function App() {
       >
         {recording ? "Educator stoppen" : "Educator starten"}
       </button>
+
       {instantExplanation && instantExplanation.mediaType === "audio" && (
         <PlayAudio
           url={instantExplanation.url}
@@ -172,6 +172,7 @@ function App() {
           setShowButtons={setShowButtons}
         />
       )}
+
       {instantExplanation && instantExplanation.mediaType === "video" && (
         <PlayVideo
           videostr={instantExplanation.url}
