@@ -4,6 +4,7 @@ import ExplanationButtons from "./components/ExplanationButtons";
 import sttFromMic from "./components/S2t";
 import PlayAudio from "./components/explanations/PlayAudio";
 import PlayVideo from "./components/explanations/PlayVideo";
+import ShowAnimation from "./components/ShowAnimation";
 
 function App() {
   const initialLeftOffset = 10;
@@ -14,6 +15,8 @@ function App() {
   const [showButtons, setShowButtons] = useState(true);
   const [explanations, setExplanations] = useState([]);
   const [instantExplanation, setInstantExplanation] = useState(null);
+  const [transcribed, setTranscribed] = useState(false);
+  const [responded, setResponded] = useState(false);
   const explanationType = useRef("idle");
   const latestButton = useRef(null);
   const explRef = useRef(explanations);
@@ -22,6 +25,7 @@ function App() {
 
   const getResponse = (apiData) => {
     // If utterance not recognized, ignore
+    setResponded(true);
     console.log(apiData);
     if (apiData.command) {
       setCommandDuringVideo(apiData.command);
@@ -141,7 +145,7 @@ function App() {
   }, [explanations]);
 
   let [startRec, stopRec] = useMemo(() => {
-    return sttFromMic(getResponse, explanationType);
+    return sttFromMic(getResponse, explanationType, setTranscribed);
   }, []);
 
   useEffect(() => {
@@ -161,6 +165,11 @@ function App() {
       >
         {recording ? "Educator stoppen" : "Educator starten"}
       </button>
+      <ShowAnimation
+        transcribed={transcribed}
+        setTranscribed={setTranscribed}
+        response={responded}
+      />
 
       {instantExplanation && instantExplanation.mediaType === "audio" && (
         <PlayAudio

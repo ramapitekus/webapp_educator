@@ -1,6 +1,6 @@
 import { ResultReason } from "microsoft-cognitiveservices-speech-sdk";
 
-function sttFromMic(setResponse, explanationType) {
+function sttFromMic(setResponse, explanationType, setTranscribed) {
   const sdk = require("microsoft-cognitiveservices-speech-sdk");
   const speechConfig = sdk.SpeechConfig.fromSubscription(
     "2ed0fc03d2e441388c4fd35cc91c23b3",
@@ -16,6 +16,7 @@ function sttFromMic(setResponse, explanationType) {
       var result = e.result;
       if (result.reason === ResultReason.RecognizedSpeech && result.text) {
         console.log(result.text);
+        setTranscribed(true);
         sendToAPI(
           "http://localhost:5000/api/v1/models",
           result.text,
