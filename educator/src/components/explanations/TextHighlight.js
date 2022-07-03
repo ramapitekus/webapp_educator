@@ -31,8 +31,7 @@ const TextHighlight = ({ json_url, stopCommandUsed }) => {
     counter.current += 1;
     wait();
   }, [newWord]);
-
-  return <h1>{accWords.current}</h1>;
+  return <h1 className="centered">{accWords.current}</h1>;
 };
 
 export default TextHighlight;

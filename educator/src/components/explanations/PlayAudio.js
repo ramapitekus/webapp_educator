@@ -9,7 +9,9 @@ const PlayAudio = ({
   command,
   setShowButtons,
 }) => {
+  const animationUrl = "playing.gif";
   const audRef = useRef(null);
+
   let audio = new Audio(url);
   audio.onended = stopAudio;
   const stopCommandUsed = useRef(false);
@@ -48,7 +50,10 @@ const PlayAudio = ({
   }, [command]);
 
   return (
-    <TextHighlight json_url={json_url} stopCommandUsed={stopCommandUsed} />
+    <>
+      {<img src={animationUrl} width="250" />}
+      <TextHighlight json_url={json_url} stopCommandUsed={stopCommandUsed} />
+    </>
   );
 };
 

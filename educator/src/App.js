@@ -25,11 +25,11 @@ function App() {
 
   const getResponse = (apiData) => {
     // If utterance not recognized, ignore
-    setResponded(true);
     console.log(apiData);
     if (apiData.command) {
       setCommandDuringVideo(apiData.command);
     }
+    setResponded(true);
     if (apiData.topic !== "none") {
       if (apiData.playInstantly === "true") {
         setInstantExplanation({
@@ -157,18 +157,22 @@ function App() {
 
   return (
     <>
-      <button
-        className={recording ? "button buttonStop" : "button buttonStart"}
-        onClick={() => {
-          setRecording(!recording);
-        }}
-      >
-        {recording ? "Educator stoppen" : "Educator starten"}
-      </button>
+      {!recording && (
+        <button
+          className={recording ? "button buttonStop" : "button buttonStart"}
+          onClick={() => {
+            setRecording(!recording);
+            setResponded(false);
+          }}
+        >
+          {recording ? "Educator stoppen" : "Educator starten"}
+        </button>
+      )}
       <ShowAnimation
         transcribed={transcribed}
         setTranscribed={setTranscribed}
         response={responded}
+        setResponse={setResponded}
       />
 
       {instantExplanation && instantExplanation.mediaType === "audio" && (

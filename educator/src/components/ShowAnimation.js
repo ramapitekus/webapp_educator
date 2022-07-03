@@ -1,31 +1,47 @@
-import { useMemo, useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
-const ShowAnimation = ({ transcribed, setTranscribed, response }) => {
+const ShowAnimation = ({
+  transcribed,
+  setTranscribed,
+  response,
+  setResponse,
+}) => {
   const loadingAnimation = "loading.gif";
-  const playingAnimation = "./animations/speaking.gif";
   const [animationUrl, setAnimationUrl] = useState(null);
-  const playAnimation = useRef(false);
+  const animationRef = useRef(false);
 
   useEffect(() => {
     async function wait() {
       function resolve() {
-        setAnimationUrl(loadingAnimation);
+        if (transcribed) {
+          setAnimationUrl(loadingAnimation);
+        }
       }
       await new Promise(() => setTimeout(resolve, 1000));
     }
 
     if (transcribed) {
-      playAnimation.current = true;
+      animationRef.current = true;
       wait();
     }
   }, [transcribed]);
 
   useEffect(() => {
-    playAnimation.current = false;
-    setTranscribed(false);
+    if (response) {
+      animationRef.current = false;
+      setTranscribed(false);
+      setAnimationUrl(null);
+      setResponse(false);
+    }
   }, [response]);
 
-  return <>{playAnimation.current && <img src={animationUrl} width="250" />}</>;
+  return (
+    <>
+      {animationUrl && animationRef.current && (
+        <img src={animationUrl} width="250" />
+      )}
+    </>
+  );
 };
 
 export default ShowAnimation;
