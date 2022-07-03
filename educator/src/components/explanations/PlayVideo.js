@@ -36,11 +36,10 @@ const PlayVideo = ({
       <div>
         <button className="button buttonExplanationOverVideo">{btnName}</button>
       </div>
-      <div className="modalStyles" />
       <div className="overlayStyles">
         <video
           src={videostr}
-          width="1500"
+          width="1000"
           height="1000"
           ref={vidRef}
           onEnded={callback}

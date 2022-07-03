@@ -23,7 +23,7 @@ const TextHighlight = ({ json_url, stopCommandUsed }) => {
         }
 
         await new Promise(() =>
-          setTimeout(resolve, (word.end - word.begin) * 1000)
+          setTimeout(resolve, (word.end - word.begin - indx * 0.1) * 1000)
         );
       }
     }

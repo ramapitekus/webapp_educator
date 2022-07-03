@@ -2,8 +2,8 @@
     position: fixed;
     width: 50px;
     padding: 50px;
-    border-radius: 100px;
-    background-color: black;
+    border-radius: 300px;
+    background-color: white;
     z-index: 1000;
 }
 
@@ -11,9 +11,9 @@
 .overlayStyles {
     display: flex;
     align-items: center;
+    padding-left: 1400px;
     justify-content: center;
     background-color: black;
-    border: 1px solid rgba(255, 255, 255, 0.18);
     z-index: 1000;
 }
 

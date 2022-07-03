@@ -22,7 +22,7 @@ const PlayAudio = ({
         if (!stopCommandUsed.current) {
           callback();
         }
-      }, 3000)
+      }, 2000)
     );
   }
 
