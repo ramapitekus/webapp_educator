@@ -3,24 +3,27 @@
     width: 50px;
     padding: 50px;
     border-radius: 300px;
-    background-color: white;
+    filter: blur(8px);
+    -webkit-filter: blur(8px);  
     z-index: 1000;
 }
 
 
 .overlayStyles {
+    position: relative;
+    backdrop-filter: blur(5px);
     display: flex;
-    align-items: center;
-    padding-left: 1400px;
     justify-content: center;
-    background-color: black;
-    z-index: 1000;
+    background-color: white;
+    z-index: 10;
+    left: 20%;
+    bottom: 50%;
 }
 
 
 .centered {
-    position: fixed;
-    top: 50%;
-    left: 50%;
+    position: relative;
+    top: 30%;
+    left: 30%;
     transform: translate(-50%, -50%);
   }

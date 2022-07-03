@@ -13,7 +13,7 @@ const PlayVideo = ({
 
   useEffect(() => {
     vidRef.current.play();
-    setShowButtons(false);
+    // setShowButtons(false);
     explanationType.current = "playing";
   }, []);
 
@@ -39,8 +39,8 @@ const PlayVideo = ({
       <div className="overlayStyles">
         <video
           src={videostr}
-          width="1000"
-          height="1000"
+          width="800"
+          height="800"
           ref={vidRef}
           onEnded={callback}
         />

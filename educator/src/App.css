@@ -48,8 +48,6 @@ ul {
   padding: 1rem;
   border: solid 3px transparent;
   background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(101deg, rgb(207, 85, 211), rgb(232, 54, 54));
-  background-origin: border-box;
-  background-clip: content-box, border-box;
   box-shadow: 2px 1000px 1px black inset;
   margin-bottom: 5%;
 }
@@ -69,14 +67,17 @@ ul {
 }
 
 .buttonExplanation {
+  position: relative;
   left: 10%;
   justify-content: 'flex-end';
   flex: 1;
   margin-bottom: 30px;
   top: 50%;
+  z-index: 1;
 }
 
 .buttonExplanationMentioned {
+  position: relative;
   left: 10%;
   border: solid 3px transparent;
   background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(101deg, rgba(85, 92, 211, 1), rgba(54, 183, 232, 1));
@@ -87,25 +88,24 @@ ul {
   flex: 1;
   margin-bottom: 30px;
   top: 50%;
+  z-index: 1;
 }
 
 .buttonExplanationOverVideo {
-  left: 10%;
+  position: relative;
   border: solid 3px transparent;
   background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(101deg, rgba(85, 92, 211, 1), rgba(54, 183, 232, 1));
-  background-origin: border-box;
-  background-clip: content-box, border-box;
   box-shadow: 2px 1000px 1px black inset;
   justify-content: 'flex-end';
   flex: 1;
   margin-bottom: 30px;
   font-size: 200%;
-  top: 50%;
+  left: 20%;
 }
 
 .buttonEndExplanation {
   position: fixed;
-  left: 47%;
+  left: 70%;
   font-size: 50%;
   flex: 1;
   top: 50%;

@@ -27,10 +27,17 @@ const ExplanationButtons = ({
     }
   };
 
+  var style = {
+    position: "absolute",
+  };
+  if (VideoStr) {
+    style.filter = "blur(8px)";
+  }
+
   var explanationButtons = topics.map((expl) => (
     <button
       style={{
-        position: "absolute",
+        ...style,
         left: `${expl.leftOffset}%`,
         top: `${expl.topOffset}%`,
       }}
