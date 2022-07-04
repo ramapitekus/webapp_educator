@@ -12,12 +12,11 @@
 .overlayStyles {
     position: relative;
     backdrop-filter: blur(5px);
-    display: flex;
     justify-content: center;
-    background-color: white;
     z-index: 10;
     left: 20%;
     bottom: 50%;
+    background-color: transparent;
 }
 
 

@@ -39,8 +39,8 @@ const PlayVideo = ({
       <div className="overlayStyles">
         <video
           src={videostr}
-          width="800"
-          height="800"
+          width="854"
+          height="480"
           ref={vidRef}
           onEnded={callback}
         />
