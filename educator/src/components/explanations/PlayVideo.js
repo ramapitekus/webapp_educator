@@ -44,10 +44,10 @@ const PlayVideo = ({
           ref={vidRef}
           onEnded={callback}
         />
-        <button className="button buttonEndExplanationVideo" onClick={callback}>
-          Zurück
-        </button>
       </div>
+      <button className="button buttonEndExplanationVideo" onClick={callback}>
+        Zurück
+      </button>
     </>
   );
 };

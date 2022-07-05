@@ -14,6 +14,7 @@ const ShowAnimation = ({
     async function wait() {
       function resolve() {
         if (transcribed) {
+          setTranscribed(false);
           setAnimationUrl(loadingAnimation);
         }
       }
@@ -29,7 +30,6 @@ const ShowAnimation = ({
   useEffect(() => {
     if (response) {
       animationRef.current = false;
-      setTranscribed(false);
       setAnimationUrl(null);
       setResponse(false);
     }

@@ -104,7 +104,7 @@ ul {
 }
 
 .buttonEndExplanation {
-  position: fixed;
+  position: relative;
   left: 70%;
   font-size: 50%;
   flex: 1;
@@ -112,11 +112,10 @@ ul {
 }
 
 .buttonEndExplanationVideo {
-  position: fixed;
-  left: 67%;
-  font-size: 200%;
+  position: relative;
+  top: 30%;
+  left: 20%;
   flex: 1;
-  top: 60%;
 }
 
 .buttonFinished{
