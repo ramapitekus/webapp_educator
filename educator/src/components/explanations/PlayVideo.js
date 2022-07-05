@@ -7,13 +7,11 @@ const PlayVideo = ({
   callback,
   explanationType,
   command,
-  setShowButtons,
 }) => {
   const vidRef = useRef();
 
   useEffect(() => {
     vidRef.current.play();
-    // setShowButtons(false);
     explanationType.current = "playing";
   }, []);
 

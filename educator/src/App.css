@@ -118,6 +118,13 @@ ul {
   flex: 1;
 }
 
+.buttonEndExplanationAudio {
+  position: fixed;
+  top: 60%;
+  left: 48.3%;
+  flex: 1;
+}
+
 .buttonFinished{
   border: 3.5px solid #636363;
 }

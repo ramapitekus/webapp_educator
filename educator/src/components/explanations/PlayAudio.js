@@ -33,11 +33,15 @@ const PlayAudio = ({
     setShowButtons(false);
   }, []);
 
+  const stopExplanation = () => {
+    audRef.current.pause();
+    stopCommandUsed.current = true;
+    callback();
+  };
+
   useEffect(() => {
     if (command === "stopExplanation") {
-      audRef.current.pause();
-      stopCommandUsed.current = true;
-      callback();
+      stopExplanation();
     }
     if (command === "pauseExplanation") {
       audRef.current.pause();
@@ -51,8 +55,16 @@ const PlayAudio = ({
 
   return (
     <>
-      {<img src={animationUrl} width="250" />}
-      <TextHighlight json_url={json_url} stopCommandUsed={stopCommandUsed} />
+      <div>
+        {<img src={animationUrl} width="250" />}
+        <TextHighlight json_url={json_url} stopCommandUsed={stopCommandUsed} />
+      </div>
+      <button
+        className="button buttonEndExplanationAudio"
+        onClick={stopExplanation}
+      >
+        Zurück
+      </button>
     </>
   );
 };
