@@ -7,7 +7,7 @@ const ShowAnimation = ({
   setResponse,
 }) => {
   const loadingAnimation = "loading.gif";
-  const [animationUrl, setAnimationUrl] = useState(null);
+  const animationUrl = useRef(null);
   const animationRef = useRef(false);
 
   useEffect(() => {
@@ -15,10 +15,10 @@ const ShowAnimation = ({
       function resolve() {
         if (transcribed) {
           setTranscribed(false);
-          setAnimationUrl(loadingAnimation);
+          animationUrl.current = loadingAnimation;
         }
       }
-      await new Promise(() => setTimeout(resolve, 1500));
+      setInterval(resolve, 1000);
     }
 
     if (transcribed) {
@@ -30,15 +30,15 @@ const ShowAnimation = ({
   useEffect(() => {
     if (response) {
       animationRef.current = false;
-      setAnimationUrl(null);
+      animationUrl.current = null;
       setResponse(false);
     }
   }, [response]);
 
   return (
     <>
-      {animationUrl && animationRef.current && (
-        <img src={animationUrl} width="250" />
+      {animationUrl.current && animationRef.current && (
+        <img src={animationUrl.current} width="250" />
       )}
     </>
   );

@@ -29,7 +29,6 @@ const PlayAudio = ({
   }
 
   useEffect(() => {
-    // audRef.current = audio;
     explanationType.current = "playing";
     audref.current.play();
     ignoreTopics.current = true;

@@ -175,14 +175,14 @@ function App() {
         </button>
       )}
 
-      {instantExplanation && (
+      {
         <ShowAnimation
           transcribed={transcribed}
           setTranscribed={setTranscribed}
           response={responded}
           setResponse={setResponded}
         />
-      )}
+      }
 
       {instantExplanation && instantExplanation.mediaType === "audio" && (
         <PlayAudio
@@ -197,17 +197,6 @@ function App() {
         />
       )}
 
-      {instantExplanation && instantExplanation.mediaType === "video" && (
-        <PlayVideo
-          videostr={instantExplanation.url}
-          btnName={instantExplanation.name}
-          callback={removeExplanation}
-          explanationType={explanationType}
-          command={commandDuringVideo}
-          setShowButtons={setShowButtons}
-        />
-      )}
-
       {recording && (
         <ExplanationButtons
           topics={explanations}
@@ -216,6 +205,16 @@ function App() {
           setCommandDuringVideo={setCommandDuringVideo}
           showButtons={showButtons}
           setShowButtons={setShowButtons}
+        />
+      )}
+
+      {instantExplanation && instantExplanation.mediaType === "video" && (
+        <PlayVideo
+          videostr={instantExplanation.url}
+          btnName={instantExplanation.name}
+          callback={removeExplanation}
+          explanationType={explanationType}
+          command={commandDuringVideo}
         />
       )}
     </>
