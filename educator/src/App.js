@@ -31,6 +31,7 @@ function App() {
     if (apiData.command) {
       setCommandDuringVideo(apiData.command);
     }
+    console.log(window.innerWidth);
     setResponded(true);
     if (apiData.topic !== "none" && !ignoreTopics.current) {
       if (apiData.playInstantly === "true") {
@@ -95,8 +96,10 @@ function App() {
       topOffsetBtnRef.current -= 15;
     } else {
       topOffsetBtnRef.current += 15;
+      topOffsetBtnRef.current = topOffsetBtnRef.current % (15 * 6);
     }
     leftOffsetBtnRef.current += 15;
+    leftOffsetBtnRef.current = leftOffsetBtnRef.current % (15 * 6);
   };
 
   useEffect(() => {
@@ -116,19 +119,18 @@ function App() {
             intermediateExplanations = removeOldestButton(
               intermediateExplanations
             );
-          } else {
-            setNextButtonLocation();
-            setExplanations([
-              ...intermediateExplanations,
-              {
-                name: apiResponse.topic,
-                colored: true,
-                url: apiResponse.url,
-                topOffset: topOffsetBtnRef.current,
-                leftOffset: leftOffsetBtnRef.current,
-              },
-            ]);
           }
+          setNextButtonLocation();
+          setExplanations([
+            ...intermediateExplanations,
+            {
+              name: apiResponse.topic,
+              colored: true,
+              url: apiResponse.url,
+              topOffset: topOffsetBtnRef.current,
+              leftOffset: leftOffsetBtnRef.current,
+            },
+          ]);
         }
         if (existsInArr(intermediateExplanations)) {
           setColorProp(intermediateExplanations);

@@ -8,11 +8,13 @@ const PlayAudio = ({
   explanationType,
   command,
   setShowButtons,
+  ignoreTopics,
+  counter,
 }) => {
   const animationUrl = "playing.gif";
-  const audRef = useRef(null);
-
-  let audio = new Audio(url);
+  counter.current += 1;
+  let audio = new Audio(`${url}?version=${counter.current}`);
+  const audref = useRef(audio);
   audio.onended = stopAudio;
   const stopCommandUsed = useRef(false);
 
@@ -27,14 +29,15 @@ const PlayAudio = ({
   }
 
   useEffect(() => {
-    audRef.current = audio;
+    // audRef.current = audio;
     explanationType.current = "playing";
-    audio.play();
+    audref.current.play();
+    ignoreTopics.current = true;
     setShowButtons(false);
   }, []);
 
   const stopExplanation = () => {
-    audRef.current.pause();
+    audref.current.pause();
     stopCommandUsed.current = true;
     callback();
   };
@@ -44,11 +47,11 @@ const PlayAudio = ({
       stopExplanation();
     }
     if (command === "pauseExplanation") {
-      audRef.current.pause();
+      audref.current.pause();
       explanationType.current = "paused";
     }
     if (command === "resumeExplanation") {
-      audRef.current.play();
+      audref.current.play();
       explanationType.current = "playing";
     }
   }, [command]);
