@@ -9,6 +9,8 @@ const PlayVideo = ({
   command,
 }) => {
   const vidRef = useRef();
+  const width = window.innerWidth;
+  const height = window.innerHeight;
 
   useEffect(() => {
     vidRef.current.play();
@@ -32,13 +34,18 @@ const PlayVideo = ({
   return (
     <>
       <div>
-        <button className="button buttonExplanationOverVideo">{btnName}</button>
+        <button
+          className="button buttonExplanationOverVideo"
+          style={{ fontSize: 500 / btnName.length }}
+        >
+          {btnName}
+        </button>
       </div>
       <div className="overlayStyles">
         <video
           src={videostr}
-          width="854"
-          height="480"
+          width={Math.floor(width / 1.5)}
+          height={Math.floor(height / 1.75)}
           ref={vidRef}
           onEnded={callback}
         />

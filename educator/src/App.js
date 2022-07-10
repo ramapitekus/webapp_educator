@@ -31,7 +31,6 @@ function App() {
     if (apiData.command) {
       setCommandDuringVideo(apiData.command);
     }
-    console.log(window.innerWidth);
     setResponded(true);
     if (apiData.topic !== "none" && !ignoreTopics.current) {
       if (apiData.playInstantly === "true") {

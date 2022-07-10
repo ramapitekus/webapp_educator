@@ -40,6 +40,7 @@ const ExplanationButtons = ({
         ...style,
         left: `${expl.leftOffset}%`,
         top: `${expl.topOffset}%`,
+        fontSize: 500 / expl.name.length,
       }}
       className={
         expl.colored
