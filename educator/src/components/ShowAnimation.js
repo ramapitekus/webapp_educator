@@ -18,7 +18,7 @@ const ShowAnimation = ({
           setAnimationUrl(loadingAnimation);
         }
       }
-      await new Promise(() => setTimeout(resolve, 1000));
+      await new Promise(() => setTimeout(resolve, 1500));
     }
 
     if (transcribed) {

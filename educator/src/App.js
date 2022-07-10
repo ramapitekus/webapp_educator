@@ -22,6 +22,8 @@ function App() {
   const explRef = useRef(explanations);
   const leftOffsetBtnRef = useRef(initialLeftOffset);
   const topOffsetBtnRef = useRef(initialTopOffset);
+  const ignoreTopics = useRef(false);
+  const counter = useRef(0);
 
   const getResponse = (apiData) => {
     // If utterance not recognized, ignore
@@ -30,7 +32,7 @@ function App() {
       setCommandDuringVideo(apiData.command);
     }
     setResponded(true);
-    if (apiData.topic !== "none") {
+    if (apiData.topic !== "none" && !ignoreTopics.current) {
       if (apiData.playInstantly === "true") {
         setInstantExplanation({
           name: apiData.topic,
@@ -49,6 +51,9 @@ function App() {
     setInstantExplanation(null);
     setShowButtons(true);
     setCommandDuringVideo(null);
+    setInterval(() => {
+      ignoreTopics.current = false;
+    }, 1000);
   };
 
   const setColorProp = (explanations) => {
@@ -168,12 +173,15 @@ function App() {
           {recording ? "Educator stoppen" : "Educator starten"}
         </button>
       )}
-      <ShowAnimation
-        transcribed={transcribed}
-        setTranscribed={setTranscribed}
-        response={responded}
-        setResponse={setResponded}
-      />
+
+      {instantExplanation && (
+        <ShowAnimation
+          transcribed={transcribed}
+          setTranscribed={setTranscribed}
+          response={responded}
+          setResponse={setResponded}
+        />
+      )}
 
       {instantExplanation && instantExplanation.mediaType === "audio" && (
         <PlayAudio
@@ -183,6 +191,8 @@ function App() {
           explanationType={explanationType}
           command={commandDuringVideo}
           setShowButtons={setShowButtons}
+          ignoreTopics={ignoreTopics}
+          counter={counter}
         />
       )}
 

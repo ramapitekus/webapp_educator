@@ -3,8 +3,8 @@ import { ResultReason } from "microsoft-cognitiveservices-speech-sdk";
 function sttFromMic(setResponse, explanationType, setTranscribed) {
   const sdk = require("microsoft-cognitiveservices-speech-sdk");
   const speechConfig = sdk.SpeechConfig.fromSubscription(
-    "2ed0fc03d2e441388c4fd35cc91c23b3",
-    "eastus"
+    "b8a6fd9cb3e74ef8870ca93b79b68296",
+    "switzerlandnorth"
   );
   speechConfig.speechRecognitionLanguage = "de-CH";
   const audioConfig = sdk.AudioConfig.fromDefaultMicrophoneInput();
@@ -15,7 +15,7 @@ function sttFromMic(setResponse, explanationType, setTranscribed) {
     recognizer.recognized = (_, e) => {
       var result = e.result;
       if (result.reason === ResultReason.RecognizedSpeech && result.text) {
-        console.log(result.text);
+        //console.log(result.text);
         setTranscribed(true);
         sendToAPI(
           "http://localhost:5000/api/v1/models",
