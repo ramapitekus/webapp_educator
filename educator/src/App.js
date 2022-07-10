@@ -199,6 +199,7 @@ function App() {
 
       {recording && (
         <ExplanationButtons
+          instantExplanation={instantExplanation}
           topics={explanations}
           explanationType={explanationType}
           command={commandDuringVideo}

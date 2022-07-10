@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PlayVideo from "./explanations/PlayVideo";
 
 const ExplanationButtons = ({
+  instantExplanation,
   topics,
   explanationType,
   command,
@@ -31,7 +32,7 @@ const ExplanationButtons = ({
   var style = {
     position: "absolute",
   };
-  if (VideoStr) {
+  if (VideoStr || instantExplanation) {
     style.filter = "blur(8px)";
   }
 
@@ -69,7 +70,6 @@ const ExplanationButtons = ({
           }}
           explanationType={explanationType}
           command={command}
-          setShowButtons={setShowButtons}
         />
       )}
       <div>{showButtons && explanationButtons}</div>
