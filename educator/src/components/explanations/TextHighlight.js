@@ -4,6 +4,7 @@ const TextHighlight = ({ json_url, stopCommandUsed }) => {
   const [newWord, setNewWord] = useState("");
   const accWords = useRef("");
   const counter = useRef(-1);
+  const width = window.innerWidth;
   const textAlignmentJson = json_url.fragments;
   const length = textAlignmentJson.length;
 
@@ -31,7 +32,11 @@ const TextHighlight = ({ json_url, stopCommandUsed }) => {
     counter.current += 1;
     wait();
   }, [newWord]);
-  return <h1 className="centered">{accWords.current}</h1>;
+  return (
+    <h1 className="centered" style={{ fontSize: width / 70 }}>
+      {accWords.current}
+    </h1>
+  );
 };
 
 export default TextHighlight;

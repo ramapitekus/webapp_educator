@@ -11,6 +11,7 @@ const ExplanationButtons = ({
 }) => {
   const [VideoStr, setVideoStr] = useState(null);
   const [BtnName, setBtnName] = useState(null);
+  const width = window.innerWidth;
 
   const handleClick = (expl) => {
     setVideoStr(expl.url);
@@ -40,7 +41,7 @@ const ExplanationButtons = ({
         ...style,
         left: `${expl.leftOffset}%`,
         top: `${expl.topOffset}%`,
-        fontSize: 500 / expl.name.length,
+        fontSize: width / 4 / expl.name.length,
       }}
       className={
         expl.colored
