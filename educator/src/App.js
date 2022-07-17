@@ -39,6 +39,7 @@ function App() {
           url: apiData.url,
           mediaType: apiData.mediaType,
           align_url: apiData.align_url,
+          topic: apiData.topic,
         });
       } else {
         setapiResponse(apiData);
@@ -194,6 +195,7 @@ function App() {
           setShowButtons={setShowButtons}
           ignoreTopics={ignoreTopics}
           counter={counter}
+          topic={instantExplanation.topic}
         />
       )}
 

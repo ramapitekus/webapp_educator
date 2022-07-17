@@ -10,8 +10,8 @@ const PlayAudio = ({
   setShowButtons,
   ignoreTopics,
   counter,
+  topic,
 }) => {
-  const animationUrl = "playing.gif";
   counter.current += 1;
   let audio = new Audio(`${url}?version=${counter.current}`);
   const audref = useRef(audio);
@@ -58,8 +58,11 @@ const PlayAudio = ({
   return (
     <>
       <div>
-        {<img src={animationUrl} width="250" />}
-        <TextHighlight json_url={json_url} stopCommandUsed={stopCommandUsed} />
+        <TextHighlight
+          json_url={json_url}
+          stopCommandUsed={stopCommandUsed}
+          topic={topic}
+        />
       </div>
       <button
         className="button buttonEndExplanationAudio"

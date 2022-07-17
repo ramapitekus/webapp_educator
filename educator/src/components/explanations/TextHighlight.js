@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 
-const TextHighlight = ({ json_url, stopCommandUsed }) => {
+const TextHighlight = ({ json_url, stopCommandUsed, topic }) => {
   const [newWord, setNewWord] = useState("");
   const accWords = useRef("");
+  const animationUrl = "playing.gif";
   const counter = useRef(-1);
   const width = window.innerWidth;
   const textAlignmentJson = json_url.fragments;
@@ -33,9 +34,13 @@ const TextHighlight = ({ json_url, stopCommandUsed }) => {
     wait();
   }, [newWord]);
   return (
-    <h1 className="centered" style={{ fontSize: width / 70 }}>
-      {accWords.current}
-    </h1>
+    <div>
+      <h1 style={{ fontSize: width / 80 }}>{topic}</h1>
+      {<img src={animationUrl} width="250" />}
+      <h1 className="centered" style={{ fontSize: width / 70 }}>
+        {accWords.current}
+      </h1>
+    </div>
   );
 };
 

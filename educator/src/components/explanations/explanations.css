@@ -5,7 +5,7 @@
     border-radius: 300px;
     filter: blur(8px);
     -webkit-filter: blur(8px);  
-    z-index: 1000;
+    z-index: 10;
 }
 
 
@@ -17,6 +17,7 @@
     left: 20%;
     bottom: 50%;
     background-color: transparent;
+    z-index: 20
 }
 
 
