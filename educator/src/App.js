@@ -57,28 +57,6 @@ function App() {
     }, 1000);
   };
 
-  const setColorProp = (explanations) => {
-    // TODO: Remove hacky copying
-    var copyExplanations = JSON.parse(JSON.stringify(explanations));
-    copyExplanations.forEach((explanation) => {
-      if (explanation.name === apiResponse.topic) {
-        explanation.colored = true;
-      }
-    });
-    setExplanations(copyExplanations);
-  };
-
-  const unsetColorProp = (button) => {
-    // TODO: Remove hacky copying
-    var copyExplanations = JSON.parse(JSON.stringify(explRef.current));
-    copyExplanations.forEach((explanation) => {
-      if (explanation.name === button && explanation.colored === true) {
-        explanation.colored = false;
-        setExplanations(copyExplanations);
-      }
-    });
-  };
-
   const existsInArr = (updatedExplanations) => {
     return updatedExplanations.find((expl) => {
       return expl.name === apiResponse.topic;
@@ -125,30 +103,32 @@ function App() {
             ...intermediateExplanations,
             {
               name: apiResponse.topic,
-              colored: true,
+              colored: false,
               url: apiResponse.url,
               topOffset: topOffsetBtnRef.current,
               leftOffset: leftOffsetBtnRef.current,
             },
           ]);
         }
-        if (existsInArr(intermediateExplanations)) {
-          setColorProp(intermediateExplanations);
-          //}
-        }
-        // Change color property of button if already exists
       }
     },
     //// eslint-disable-next-line react-hooks/exhaustive-deps
     [apiResponse]
   );
 
+  const removeButton = (button) => {
+    latestButton.current = null;
+    setExplanations(explRef.current.filter((expl) => expl.name !== button));
+  };
+
   // 10s after mentioning the topic, return the color back to gray
   useEffect(() => {
     const button = latestButton.current; // assign the button associated with this instance of useEffect
-    setTimeout(() => {
-      unsetColorProp(button);
-    }, 10000);
+    if (button) {
+      setTimeout(() => {
+        removeButton(button);
+      }, 10000);
+    }
   }, [explanations]);
 
   let [startRec, stopRec] = useMemo(() => {
