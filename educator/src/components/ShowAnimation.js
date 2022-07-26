@@ -7,7 +7,7 @@ const ShowAnimation = ({
   setResponse,
 }) => {
   const loadingAnimation = "loading.gif";
-  const animationUrl = useRef(null);
+  const animationUrl = useRef(loadingAnimation);
   const animationRef = useRef(false);
 
   useEffect(() => {
