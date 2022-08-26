@@ -45,7 +45,7 @@ const PlayVideo = ({
         <video
           src={videostr}
           width={Math.floor(width / 1.5)}
-          height={Math.floor(height / 1.75)}
+          height={Math.floor(height / 1.5)}
           ref={vidRef}
           onEnded={callback}
         />

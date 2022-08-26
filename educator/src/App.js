@@ -7,7 +7,7 @@ import PlayVideo from "./components/explanations/PlayVideo";
 import ShowAnimation from "./components/ShowAnimation";
 
 function App() {
-  const initialLeftOffset = 10;
+  const initialLeftOffset = 0;
   const initialTopOffset = 40;
   const [recording, setRecording] = useState(false);
   const [commandDuringVideo, setCommandDuringVideo] = useState(null);
@@ -117,17 +117,17 @@ function App() {
   );
 
   const removeButton = (button) => {
-    latestButton.current = null;
+    latestButton.current = null; // indicates the removal of the button
     setExplanations(explRef.current.filter((expl) => expl.name !== button));
   };
 
-  // 10s after mentioning the topic, return the color back to gray
   useEffect(() => {
     const button = latestButton.current; // assign the button associated with this instance of useEffect
     if (button) {
+      // check if the button has already been removed
       setTimeout(() => {
         removeButton(button);
-      }, 10000);
+      }, 30000);
     }
   }, [explanations]);
 

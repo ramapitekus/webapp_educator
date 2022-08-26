@@ -15,7 +15,6 @@ function sttFromMic(setResponse, explanationType, setTranscribed) {
     recognizer.recognized = (_, e) => {
       var result = e.result;
       if (result.reason === ResultReason.RecognizedSpeech && result.text) {
-        //console.log(result.text);
         setTranscribed(true);
         sendToAPI(
           "http://localhost:5000/api/v1/models",
@@ -44,7 +43,6 @@ function sttFromMic(setResponse, explanationType, setTranscribed) {
 }
 
 async function sendToAPI(url, message, explanationType) {
-  // Simple POST request with a JSON body using fetch
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
