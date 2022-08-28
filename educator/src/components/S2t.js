@@ -1,10 +1,11 @@
 import { ResultReason } from "microsoft-cognitiveservices-speech-sdk";
+import Config from "../config.json";
 
 function sttFromMic(setResponse, explanationType, setTranscribed) {
   const sdk = require("microsoft-cognitiveservices-speech-sdk");
   const speechConfig = sdk.SpeechConfig.fromSubscription(
-    "2ed0fc03d2e441388c4fd35cc91c23b3",
-    "eastus"
+    Config.AZURE_SUBSCRIPTION,
+    Config.AZURE_REGION
   );
   speechConfig.speechRecognitionLanguage = "de-CH";
   const audioConfig = sdk.AudioConfig.fromDefaultMicrophoneInput();

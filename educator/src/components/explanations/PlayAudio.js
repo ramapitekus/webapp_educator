@@ -33,6 +33,7 @@ const PlayAudio = ({
     audref.current.play();
     ignoreTopics.current = true;
     setShowButtons(false);
+    //// eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const stopExplanation = () => {
@@ -53,6 +54,7 @@ const PlayAudio = ({
       audref.current.play();
       explanationType.current = "playing";
     }
+    //// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [command]);
 
   return (

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 const ShowAnimation = ({
   transcribed,
@@ -25,6 +25,7 @@ const ShowAnimation = ({
       animationRef.current = true;
       wait();
     }
+    //// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transcribed]);
 
   useEffect(() => {
@@ -33,12 +34,13 @@ const ShowAnimation = ({
       animationUrl.current = null;
       setResponse(false);
     }
+    //// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response]);
 
   return (
     <>
       {animationUrl.current && animationRef.current && (
-        <img src={animationUrl.current} width="250" />
+        <img src={animationUrl.current} alt="" width="250" />
       )}
     </>
   );

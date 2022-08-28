@@ -24,7 +24,7 @@ const ExplanationButtons = ({
     setBtnName(null);
     setShowButtons(true);
     explanationType.current = "idle";
-    if (command == "stopExplanation") {
+    if (command === "stopExplanation") {
       setCommandDuringVideo(null);
     }
   };

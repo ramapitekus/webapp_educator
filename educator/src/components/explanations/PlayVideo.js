@@ -29,6 +29,7 @@ const PlayVideo = ({
       vidRef.current.play();
       explanationType.current = "playing";
     }
+    //// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [command]);
 
   return (

@@ -32,11 +32,12 @@ const TextHighlight = ({ json_url, stopCommandUsed, topic }) => {
 
     counter.current += 1;
     wait();
+    //// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newWord]);
   return (
     <div>
       <h1 style={{ fontSize: width / 80 }}>{topic}</h1>
-      {<img src={animationUrl} width="250" />}
+      {<img src={animationUrl} alt="" width="250" />}
       <h1 className="centered" style={{ fontSize: width / 70 }}>
         {accWords.current}
       </h1>
